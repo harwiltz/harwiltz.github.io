@@ -4,7 +4,9 @@
 (setq assemble-outdir "build")
 
 (defun default()
-  (let ((org-publish-project-alist
+  (let ((org-confirm-babel-evaluate nil)
+	(org-project-root default-directory)
+	(org-publish-project-alist
 	 `(("org-notes"
 	    :base-directory "."
 	    :base-extension "org"

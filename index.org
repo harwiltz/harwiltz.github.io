@@ -1,0 +1,8 @@
+#+TITLE: Home
+#+OPTIONS: title:nil toc:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/me_photo_style.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/pandoc.css" />
+
+#+LINK_HOME: index.html
+
+* Yo Yo Ma

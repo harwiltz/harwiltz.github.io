@@ -9,3 +9,9 @@
   width: 80%;
   height: auto;
 }
+
+h2 {
+    margin: 12px;
+    margin-bottom: 0;
+    text-align: center;
+}
