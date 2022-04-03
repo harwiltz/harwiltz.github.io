@@ -1,0 +1,25 @@
+#+TITLE: About
+#+OPTIONS: title:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/me_photo_style.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/pandoc.css" />
+
+#+ATTR_HTML: :id me-photo
+[[./assets/img/me.jpg]]
+
+I am a first year PhD student at the
+[[https://www.cim.mcgill.ca/~mrl][Mobile Robotics Lab]] at McGill
+University and [[https://www.mila.quebec][Mila]] in Montreal, Canada. I
+am fortunately supervised by [[https://www.cim.mcgill.ca/~dmeger][David
+Meger]] and [[http://www.marcgbellemare.info/][Marc G. Bellemare]].
+
+My research interests are primarily concerned with reinforcement
+learning, and particularly with methods of modeling uncertainty to
+improve safety and exploration. I am a
+[[https://www.distributional-rl.org][distributional reinforcement
+learning]] enthusiast.
+
+During my Master's, I derived a characterization
+of the distribution of returns induced by agents whose dynamics are
+driven by continuous-time Markov processes, which we used to analyze
+continuous time distributional RL algorithms. My thesis can be seen
+[[./assets/thesis-msc.pdf][here]].

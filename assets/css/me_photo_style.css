@@ -1,0 +1,11 @@
+.center-image {
+  margin: 0 auto;
+  display: block;
+}
+
+#me-photo {
+  border: 4px solid #222255;
+  max-width: 400px;
+  width: 80%;
+  height: auto;
+}
