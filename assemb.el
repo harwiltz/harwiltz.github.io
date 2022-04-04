@@ -6,6 +6,7 @@
 (defun default()
   (let ((org-confirm-babel-evaluate nil)
 	(org-project-root default-directory)
+	(image-file-name-extensions (cons "webm" image-file-name-extensions))
 	(org-publish-project-alist
 	 `(("org-notes"
 	    :base-directory "."
@@ -17,7 +18,7 @@
 	    :auto-preamble t)
 	   ("org-static"
 	    :base-directory "./assets"
-	    :base-extension "css\\|js\\|jpg\\|png\\|pdf\\|gif"
+	    :base-extension "css\\|js\\|jpg\\|png\\|pdf\\|gif\\|webm"
 	    :publishing-directory ,(concat assemble-outdir "/assets")
 	    :recursive t
 	    :publishing-function org-publish-attachment)

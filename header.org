@@ -11,6 +11,6 @@
             "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"" root "assets/css/navbar.css\" />\n"
             "#+BEGIN_header-navbar\n"
             navbar "\n"
-	    "-----\n"
+            "-----\n"
             "#+END_header-navbar\n"))
 #+END_SRC
