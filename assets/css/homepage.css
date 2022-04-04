@@ -1,0 +1,7 @@
+.coordinates ul {
+    list-style-type: none;
+    padding: 0;
+}
+.coordinates li {
+    padding: 1pt;
+}

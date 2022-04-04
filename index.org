@@ -1,8 +1,15 @@
-#+TITLE: Home
-#+OPTIONS: title:nil toc:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/me_photo_style.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/pandoc.css" />
+#+TITLE: Harley Wiltzer
+#+AUTHOR: Harley Wiltzer
+#+OPTIONS: title:nil toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./assets/css/homepage.css"/>
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-#+LINK_HOME: index.html
+#+INCLUDE: "./header.org"
 
-* Yo Yo Ma
+* Harley Wiltzer
+#+BEGIN_coordinates
+- PhD Student, McGill University & Mila
+- @@html:<icon class="fa-solid fa-envelope-open"></icon>@@ =harley.wiltzer@mail.mcgill.ca=
+- @@html:<icon class="fa-brands fa-github"></icon>@@ [[https://github.com/harwiltz][harwiltz]]
+- @@html:<icon class="fa-brands fa-gitlab"></icon>@@ [[https://gitlab.com/harwiltz][harwiltz]]
+#+END_coordinates
