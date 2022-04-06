@@ -6,4 +6,4 @@
 (load-file "./publish.el")
 
 (defun default()
-  (publish-site assemble-outdir))
+  (publish-site assemble-outdir t))

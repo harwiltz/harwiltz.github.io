@@ -1,8 +1,16 @@
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(package-refresh-contents)
+(package-install 'htmlize)
 (require 'ox-publish)
+(require 'ox-html)
 
 (defun publish-site(dir &optional force)
+  (load-theme 'tsdh-light)
   (let ((org-confirm-babel-evaluate nil)
 	(org-project-root default-directory)
+	(org-html-htmlize-font-prefix "org-")
 	(image-file-name-extensions (cons "webm" image-file-name-extensions))
 	(org-publish-project-alist
 	 `(("org-notes"
