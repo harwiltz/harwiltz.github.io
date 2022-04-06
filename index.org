@@ -7,9 +7,39 @@
 #+INCLUDE: "./header.org"
 
 * Harley Wiltzer
+:PROPERTIES:
+:class: coords-name
+:END:
 #+BEGIN_coordinates
 - PhD Student, McGill University & Mila
 - @@html:<icon class="fa-solid fa-envelope-open"></icon>@@ =harley.wiltzer@mail.mcgill.ca=
 - @@html:<icon class="fa-brands fa-github"></icon>@@ [[https://github.com/harwiltz][harwiltz]]
 - @@html:<icon class="fa-brands fa-gitlab"></icon>@@ [[https://gitlab.com/harwiltz][harwiltz]]
 #+END_coordinates
+
+** Research
+#+BEGIN_research-list
+1. [[./assets/thesis-msc.pdf][On the Evolution of Return Distributions in Continuous-Time
+   Reinforcement Learning]]. @@html: <br>@@
+   M.Sc. Thesis.
+#+END_research-list
+
+** Rants
+#+BEGIN_SRC elisp :exports results :results raw
+(let* ((post-dirs (reverse (directory-files "./posts" nil "^[^.]")))
+       (dirs (mapcar (lambda (d) (concat "./posts/" d)) post-dirs))
+       (bufs (mapcar (lambda (d) (find-file-noselect (concat d "/index.org"))) dirs))
+       (titles (mapcar
+		(lambda (b) (with-current-buffer b
+			      (car (plist-get (org-export-get-environment) :title))))
+		bufs))
+       (entries (cl-mapcar (lambda (d x) (concat "[[" d "/index.org][" x "]]"))
+			   dirs titles)))
+  (concat
+   "#+BEGIN_post-list\n"
+   (mapconcat
+    (lambda (x) (concat "1. " x))
+    entries
+    "\n") "\n"
+   "#+END_post-list\n"))
+#+END_SRC

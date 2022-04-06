@@ -1,7 +1,18 @@
 .coordinates ul {
     list-style-type: none;
     padding: 0;
+    margin-top: -1em;
 }
 .coordinates li {
-    padding: 1pt;
+    padding: 0;
+}
+
+.post-list ol {
+    list-style-type: lower-greek;
+    padding: 0;
+}
+
+.research-list ol {
+    list-style-type: lower-greek;
+    padding: 0;
 }
