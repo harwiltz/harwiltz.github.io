@@ -1,0 +1,8 @@
+image: silex/emacs
+
+pages:
+  script:
+    - emacs --batch -l publish.el --eval '(publish-site "public" t)'
+  artifacts:
+    paths:
+      - public
