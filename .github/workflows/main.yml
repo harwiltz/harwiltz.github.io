@@ -12,6 +12,6 @@ jobs:
       with:
         fetch-depth: 1
     - name: build
-      run: |
-        mkdir -p docs
-        emacs --batch -l publish.el --eval '(publish-site "docs" t)'
+      uses: silex/emacs
+      with:
+        args: ./build-site.sh
