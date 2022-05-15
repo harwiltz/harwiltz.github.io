@@ -20,4 +20,5 @@ jobs:
       if: success()
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_dir: ./docs
