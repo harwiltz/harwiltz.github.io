@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-05-15 Sun 16:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ILQR Without Obfuscation</title>
+<meta name="author" content="Harley Wiltzer" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<link rel="stylesheet" type="text/css" href="../../assets/css/pandoc.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<div class="header-navbar" id="org1281a61">
+<ul class="org-ul">
+<li><a href="../.././index.html">Home</a></li>
+<li><a href="../.././about">About</a></li>
+</ul>
+<hr />
+
+</div>
+
+<div id="outline-container-org8f0414c" class="outline-2">
+<h2 id="org8f0414c">iLQR Without Obfuscation</h2>
+<div class="outline-text-2" id="text-org8f0414c">
+<p>
+<i>Harley Wiltzer, February 2020</i>
+</p>
+</div>
+<div id="outline-container-whats-wrong-with-the-ilqr-literature" class="outline-3">
+<h3 id="whats-wrong-with-the-ilqr-literature">What's Wrong With the iLQR Literature?</h3>
+<div class="outline-text-3" id="text-whats-wrong-with-the-ilqr-literature">
+<p>
+The iLQR optimal control algorithm could look quite daunting to those
+that are unfamiliar with it. I hope I can convince you that iLQR is
+actually fairly simple, it just happens to be one of the most poorly
+documented algorithms out there. I don't mean to say there's a shortage
+of documentation on this topic &#x2013; rather, every document that I've read
+that attempts to explain or describe iLQR makes a severe mistake that
+obfuscates the algorithm tremendously. Maybe my reading comprehension
+needs some work, but for what it's worth, this is my attempt to explain
+how iLQR works from the ground up, without the distracting flaw that I
+previously mentioned.
+</p>
+
+<p>
+The issue that I believe obfuscates the iLQR algorithm in the literature
+that I've read is the abundant slew of comparisons to LQR. Using LQR to
+motivate iLQR is <i>almost</i> like using SAT to motivate integer
+factorization. Admittedly, now that I understand iLQR I can see the
+connection, but I truly believe it's beneficial to extrapolate that
+connection from an algorithm that you understand than to try to force it
+to begin with. So, if you don't know what LQR is, don't worry. If you do
+know what it is, pretend that you don't. My derivation of iLQR won't
+make any connection to LQR at all.
+</p>
+</div>
+</div>
+
+<div id="outline-container-an-overview-of-ilqr" class="outline-3">
+<h3 id="an-overview-of-ilqr">An Overview of iLQR</h3>
+<div class="outline-text-3" id="text-an-overview-of-ilqr">
+<p>
+Before we begin, let's clear up what iLQR is actually responsible for.
+The acronym stands for iterative linear quadratic regulator, which I
+won't talk about anymore. Its purpose is to perform finite-horizon
+<i>trajectory optimization</i> for nonlinear systems. Essentially, the
+algorithm is given the initial state of a system with known (possibly
+nonlinear) dynamics, the target state to reach at the end of a given
+time horizon, and an initial "nominal trajectory", and iLQR iteratively
+improves this trajectory until it is optimized with respect to some cost
+function. The algorithm is subject to the following constraints:
+</p>
+
+<ul class="org-ul">
+<li>The system must be discretized in time</li>
+<li>The cost function will be approximated with second degree Taylor
+series approximations</li>
+</ul>
+
+<p>
+An abstract overview of the main steps in the algorithm is given below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a626a4;">def</span> <span style="color: #0184bc;">ilqr</span>(x0, target, dynamics, state_trajectory, control_trajectory):
+  <span style="color: #8b4513;">converged</span> = <span style="font-weight: bold; text-decoration: underline;">False</span>
+  <span style="color: #a626a4;">while</span> <span style="color: #a626a4;">not</span> <span style="color: #8b4513;">converged</span>:
+    gains = BackwardUpdate(state_trajectory, control_trajectory, target)
+    <span style="color: #8b4513;">states</span>, <span style="color: #8b4513;">controls</span>, <span style="color: #8b4513;">loss</span> = ForwardRollout(state_trajectory, control_trajectory, gains)
+    <span style="color: #a626a4;">if</span> |controls - control_trajectory| &lt; <span style="color: #8b4513;">threshold</span>:
+      converged = <span style="font-weight: bold; text-decoration: underline;">True</span>
+    <span style="color: #8b4513;">state_trajectory</span> = states
+    <span style="color: #8b4513;">control_trajectory</span> = controls
+</pre>
+</div>
+
+<p>
+So basically we need to figure out what <code>ForwardRollout</code> and
+<code>BackwardUpdate</code> do. Readers that are familiar with machine learning
+could think of these like forward and backward passes in a neural
+network, if that helps. Essentially, the backward update tells us how to
+change the trajectory to most effectively minimize its cost, and the
+forward pass applies the updates and computes a new trajectory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-the-math" class="outline-3">
+<h3 id="the-math">The Math</h3>
+<div class="outline-text-3" id="text-the-math">
+</div>
+<div id="outline-container-some-notation-and-modeling" class="outline-4">
+<h4 id="some-notation-and-modeling">Some Notation and Modeling</h4>
+<div class="outline-text-4" id="text-some-notation-and-modeling">
+<p>
+Let \(x_t\in\mathbf{C}^{n_x}\) denote the state vector at time \(t\),
+and \(u_t\in\mathbf{C}^{n_u}\) denote the control signal at time \(t\).
+We describe the dynamics of the system according to
+</p>
+
+\begin{align*}
+x_{t+1} = f(x_t,u_t)
+\end{align*}
+
+<p>
+Moreover, we define a <i>cost-to-go</i> function as follows,
+</p>
+
+\begin{align*}
+V_{t:T}(x_t) = \min_{u_{t:T}}\sum_{k=t}^T\ell(x_k, u_k)
+\end{align*}
+
+<p>
+where \(V_{t:T}\) designates the cumulative cost in the trajectory
+starting at time \(t\) and ending at time \(T\), and \(\ell\) is a
+per-step cost function. As we mentioned previously, iLQR approximates
+the cost function with a second degree Taylor approximation. So, rather
+than requiring this approximation, we'll define a second-order cost
+function as follows:
+</p>
+
+\begin{align*}
+\ell(x_t, u_t) = \frac{1}{2}x^{\top}Q\bar{x} + \frac{1}{2}u^\top R\bar{u}
+\end{align*}
+
+<p>
+where \(Q\in\mathbf{R}^{n_x\times n_x}\) and
+\(R\in\mathbf{R}^{n_u\times n_u}\) decide how to penalize trajectories
+based on their states and controls. With this quadratic parameterization
+of the cost function, we don't need to worry about the Taylor series
+approximation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-putting-the-optimization-in-trajectory-optimization" class="outline-4">
+<h4 id="putting-the-optimization-in-trajectory-optimization">Putting the "Optimization" in Trajectory Optimization</h4>
+<div class="outline-text-4" id="text-putting-the-optimization-in-trajectory-optimization">
+<p>
+In order to optimize the cost of trajectories, iLQR makes local linear
+approximations of the dynamics of the system. To compute this, we
+analyze the perturbation of the next state \(\delta x_{t+1}\) due to a
+small perturbation in state \(\delta x_t\) and control \(\delta u_t\):
+</p>
+
+\begin{align*}
+x_{t+1} + \delta x_{t+1} = f(x + \delta x_t, u + \delta u_t) = f(x_t, u_t) +
+\frac{\partial f}{\partial x}\bigg\rvert_{x_t, u_t}(x - x_t) + \frac{\partial
+  f}{\partial u}\bigg\rvert_{x_t,u_t}(u - u_t)
+\)
+\end{align*}
+
+<p>
+where \(\delta x_t\triangleq x - x_t\) and
+\(\delta u_t\triangleq u - u_t\). Here, the \(x,u\) refer to states and
+controls in a <i>proposed</i> trajectory, while \(x_t, u_t\) refer to states
+and controls in the trajectory that is being improved (referring to the
+pseudocode above, \(x, u\) would be in <code>states</code> and <code>controls</code>, while
+\(x_t, u_t\) would be in <code>state_trajectory</code> and <code>control_trajectory</code>).
+Also, noting that \(x_{t+1}\equiv f(x_t, u_t)\), we have
+</p>
+
+\begin{align*}
+\delta x_{t+1} = A_t\delta x_t + B_t\delta u_t
+\end{align*}
+
+<p>
+where \(A_t\in\mathbf{C}^{n_x\times n_x},B_t\in\mathbf{C}^{n_x,n_u}\)
+are the Jacobians of \(f\) with respect to \(x\) and \(u\) respectively,
+evaluated at \((x_t, u_t)\).
+</p>
+
+<p>
+With that out of the way, we can think about how to optimize the
+cost-to-go of our trajectory. Firstly, note the recursive property of
+the cost to go:
+</p>
+
+\begin{align*}
+V_{t:T}(x_t) = \min_{u_t}[\ell(x_t, u_t) + V_{t+1:T}(f(x_t, u_t))]
+\end{align*}
+
+<p>
+This is called the Hamilton-Jacobi-Bellman equation, and it is beautiful
+(reinforcement learning folk are obligated to agree). The minimum over
+controls is taken here since the cost-to-go should represent the optimal
+cost of completing the trajectory from state \(x_t\). Keeping with
+reinforcement learning style notation, we'll define
+\(Q_{t:T}(x_t, u_t) = \ell(x_t, u_t) +
+V_{t+1:T}(f(x_t, u_t))\), so
+\(V_{t:T}(x_t) = \min_{u_t}Q_{t:T}(x_t, u_t)\). In order to minimize the
+cost-to-go with respect to controls, we approximate the loss function by
+a quadratic, as mentioned previously. Now we'll analyze how the
+cost-to-go is perturbed due to a small change in \(x_t\), using a second
+order Taylor expansion (note, the Jacobians will be very simple due to
+the quadratic costs):
+</p>
+
+\begin{equation}
+V_{t:T}(x_t) + \delta V_{t:T} = V_{t:T}(x_t + \delta x_t) = V_{t:T}(x_t) +
+\frac{\partial V_{t:T}}{\partial x}\bigg\rvert_{x_t}\delta x + \frac{1}{2}\delta
+x^\top\frac{\partial^2 V_{t:T}}{\partial x^2}\delta x_t
+\end{equation}
+
+\begin{equation}\tag{dV}\label{eq:dV}
+\therefore \delta V_{t:T} \triangleq M_t^\top \delta x_t + \frac{1}{2}\delta
+x_t^\top N_t\delta x_t
+\end{equation}
+
+<p>
+To compute the Jacobians of \(V_{t:T}\), we must compute the Jacobians
+of \(Q_{t:T}\). In a similar fashion, we have
+</p>
+
+\begin{align*}
+Q_{t:T}(x_t, u_t) + \delta Q_{t:T} &= Q(x_t + \delta x_t, u_t + \delta u_t)\\
+&= Q_{t:T}(x_t, u_t) + \frac{\partial Q_{t:T}}{\partial x}\bigg\rvert_{x_t,u_t}\delta x_t + \frac{\partial Q_{t:T}}{\partial
+    u}\bigg\rvert_{x_t,u_t}\delta u_t\\
+&\quad+ \frac{1}{2}\delta x^\top\frac{\partial^2Q_{t:T}}{\partial
+  x^2}\bigg\rvert_{x_t, u_t}\delta x + \frac{1}{2}\delta
+  u_t^\top\frac{\partial^2Q_{t:T}}{\partial u^2}\bigg\rvert_{x_t,u_t}\delta
+  u_t\\
+&\quad+ \frac{1}{2}\delta u_t^\top\frac{\partial^2 Q_{t:T}}{\partial
+  u\partial x}\bigg\rvert_{x_t, u_t}\delta x_t + \frac{1}{2}\delta
+  x_t^\top\frac{\partial^2 Q_{t:T}}{\partial x\partial u}\bigg\rvert_{x_t,u_t}\delta u_t
+\end{align*}
+
+<p>
+Phew! Believe me, that was not any more complicated than a second order
+Taylor series expansion. Thankfully, we can write this in matrix form,
+where the Jacobians will be replaced with cleaner symbols:
+</p>
+
+\begin{equation}
+\delta Q_{t:T} = \frac{1}{2}\begin{bmatrix} \delta x_t\\\delta
+u_t\end{bmatrix}^\top\begin{bmatrix}Q^{(t)}_{xx} & Q^{(t)}_{xu}\\ Q^{(t)}_{ux} &
+Q^{(t)}_{uu}\\\end{bmatrix}\begin{bmatrix}\delta x_t\\\delta u_t\\\end{bmatrix} +
+\begin{bmatrix}Q^{(t)}_x\\Q^{(t)}_u\\\end{bmatrix}^\top\begin{bmatrix}\delta x_t\\\delta
+u_t\\\end{bmatrix}\tag{dQ}\label{eq:dQ}
+\end{equation}
+
+<p>
+The matrices
+\(Q^{(t)}_{xx}, Q^{(t)}_{uu}, Q^{(t)}_{ux}, Q^{(t)}_{xu}, Q^{(t)}_x, Q^{(t)}_u\)
+are derived below:
+</p>
+
+\begin{align}
+Q^{(t)}_x &\triangleq \frac{\partial Q_{t:T}}{\partial x}\bigg\rvert_{x_t, u_t} =
+\frac{\partial\ell}{\partial x}\bigg\rvert_{x_t, u_t} + \frac{\partial
+  V_{t+1:T}}{\partial x}\bigg\rvert_{x_t, u_t} = Qx_t + M_{t+1}^\top A_t\\
+Q^{(t)}_u &\triangleq \frac{\partial Q_{t:T}}{\partial u}\bigg\rvert_{x_t, u_t} =
+\frac{\partial\ell}{\partial u}\bigg\rvert_{x_t, u_t} + \frac{\partial
+  V_{t+1:T}}{\partial u}\bigg\rvert_{x_t, u_t} = Ru_t + M_{t+1}^\top B_t\\
+Q^{(t)}_{xx} &\triangleq \frac{\partial^2 Q_{t:T}}{\partial x^2}\bigg\rvert_{x_t,
+  u_t} = \frac{\partial^2\ell}{\partial x^2}\bigg\rvert_{x_t,u_t} +
+  \frac{\partial^2 V_{t+1:T}}{\partial x^2}\bigg\rvert_{x_t, u_t} = Q + A_t^\top
+  N_{t+1}A_t\\
+Q^{(t)}_{uu} &\triangleq \frac{\partial^2 Q_{t:T}}{\partial u^2}\bigg\rvert_{x_t,
+  u_t} = \frac{\partial^2\ell}{\partial u^2}\bigg\rvert_{x_t,u_t} +
+  \frac{\partial^2 V_{t+1:T}}{\partial u^2}\bigg\rvert_{x_t, u_t} = R + B_t^\top
+  N_{t+1}B_t\\
+Q^{(t)}_{xu} = Q^{(t)\top}_{ux} &\triangleq \frac{\partial^2Q_{t:T}}{\partial u\partial
+  x}\bigg\rvert_{x_t, u_t} = \frac{\partial^2\ell}{\partial u\partial
+    x}\bigg\rvert_{x_t, u_t} + \frac{\partial^2 V_{t+1:T}}{\partial u\partial x}
+    = B_t^\top N_{t+1}A
+\end{align}
+
+<p>
+You may be concerned about the dependence of these matrices on the \(M\)
+and \(N\) matrices "from the future", but fortunately we can solve for
+these matrices backwards in time (hence, the backwards update step).
+Note that at \(t=T\) (the end of the horizon), the cost to go is
+\(V_{T:T}(x_T) = \ell(x_T) = x_T^\top Q_f
+x_T\), where we optionally specify another cost matrix \(Q_f\) to
+distinguish "transient" penalties from the penalty on the final state.
+Therefore, by \eqref{eq:dV}, we have \(M_{T} = Q_f(x_T - x^*)\) for
+target state \(x^*\), and \(N_T = Q_f\). With this edge case, we can
+compute the Jacobian matrices backward from \(t=T\) to \(t=0\).
+</p>
+
+<p>
+To minimize the cost-to-go \(V_{t:T}(x_t)\), we must solve for
+\(\delta u_t =
+\arg\min_{\delta u_t}\delta Q_{t:T}\). We proceed to do this using
+standard calculus optimization techniques. Due to Bellman's principle of
+optimality, we can simply optimize \(\delta u_t\) individually for each
+timestep. Referring to \eqref{eq:dQ}, have
+</p>
+
+\begin{align}
+\delta u_t &= \arg\min_{\delta u_t}\delta Q_{t:T}\\
+0 &= \frac{\partial\delta Q_{t:T}}{\partial \delta u_t}\\
+0 &= \frac{\partial}{\partial\delta u_t}\left[\frac{1}{2}\left(2\delta
+    u_t^\top Q^{(t)}_{ux}\delta x_t + \delta u_t^\top Q^{(t)}_{uu}\delta u_t + Q^{(t)}_u\delta u_t\right) + Q^{(t)}_u\delta u_t\right]\\
+0 &= Q^{(t)}_{ux}\delta x_t + Q^{(t)}_{uu}\delta u_t + Q_u^{(t)}\\
+\delta u_t &= -(Q^{(t)}_{uu})^{-1}Q_{ux}^{(t)}\delta x_t -
+(Q^{(t)}_{uu})^{-1}Q_u^{(t)}
+\end{align}
+
+<p>
+Notably, we have
+</p>
+
+\begin{equation}
+\delta u_t = K_t\delta x_t + d_t\tag{du}\label{eq:du}
+\end{equation}
+
+<p>
+where \(K_t = -(Q_{uu}^{(t)})^{-1}Q^{(t)}_{ux}\) and \(d_t =
+-(Q_{uu}^{(t)})^{-1}Q^{(t)}_u\), so optimal changes to controls at each
+step are affine transformations of the measured error in state (we will
+discuss how this state error is calculated soon).
+</p>
+
+<p>
+Recall that in order to compute these gains, we need the \(M\) and \(N\)
+matrices for each timestep. First, substitute the \(\delta u_t\)
+computed in \eqref{eq:du} into \eqref{eq:dQ}:
+</p>
+
+\begin{equation}
+\delta Q_{t:T} = \frac{1}{2}\begin{bmatrix} \delta x_t\\K_t\delta x_t + d_t\\\end{bmatrix}^\top\begin{bmatrix}Q^{(t)}_{xx} & Q^{(t)}_{xu}\\ Q^{(t)}_{ux} &
+Q^{(t)}_{uu}\\\end{bmatrix}\begin{bmatrix}\delta x_t\\K_t\delta x_t + d_t\\\end{bmatrix} +
+\begin{bmatrix}Q^{(t)}_x\\Q^{(t)}_u\\\end{bmatrix}^\top\begin{bmatrix}\delta x_t\\
+K_t\delta x_t + d_t\\\end{bmatrix}
+\end{equation}
+
+<p>
+Recall that \(M_t\) is the term that is linear in \(\delta x_t\) in
+\eqref{eq:dV}. Since
+\(\frac{\partial V_{t:T}}{\partial\delta x_t} = \frac{\partial}{\partial\delta
+  x_t}\min_{\delta u_t}Q_{t:T}(\delta x_t,\delta u_t) = \delta Q_{t:T}\),
+\(M_T\) is obtained by extracting the linear terms in \(\delta x_t\)
+from the matrix equation above:
+</p>
+
+\begin{equation}
+M_t = Q_{ux}^{(t)\top}d_t + K^\top_tQ^{(t)}_{uu}d_t + Q_x^{(t)} +
+K^\top_tQ^{(t)}_u\tag{Mt}\label{eq:Mt}
+\end{equation}
+
+<p>
+Similarly, since \(N_t\) is the term that is quadratic in
+\(\delta x_t\), we have
+</p>
+
+\begin{equation}
+N_t = Q^{(t)}_{xx} + K_t^\top Q^{(t)}_{ux} + Q_{ux}^{(t)\top} K_t + K_t^\top
+Q^{(t)}_{uu}K_t\tag{Nt}\label{eq:Nt}
+\end{equation}
+
+<p>
+By starting at \(t=T\) and working backwards, we can compute all of the
+\(K_t\) and \(d_t\) vectors. This is the job of <code>BackwardUpdate</code> in the
+pseudocode above.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-generating-rollouts" class="outline-3">
+<h3 id="generating-rollouts">Generating Rollouts</h3>
+<div class="outline-text-3" id="text-generating-rollouts">
+<p>
+With the <code>BackwardUpdate</code>, we know how to adjust controls given some
+error in state. Now we discuss how this is implemented in iLQR &#x2013; this
+is the <code>ForwardRollout</code> subroutine described in the pseudocode above.
+</p>
+
+<p>
+Recall that <code>ForwardRollout</code> takes as input a trajectory of states, a
+trajectory of controls, and a target state. The trajectory of states
+corresponds to the previous rollout that was done (we'll talk about
+<a href="#the-initial-trajectory">how to initialize the first rollout later</a>,
+and the trajectory of controls corresponds to the controls used in the
+previous trajectory. Now, <code>ForwardRollout</code> works as follows:
+</p>
+
+<ul class="org-ul">
+<li>Let \(\bar{x}_t\) denote the previous state trajectory, \(\bar{u}_t\)
+the previous control trajectory</li>
+
+<li>Let \(x_t\leftarrow x_0\), the initial state</li>
+
+<li>Let \(L=0\), the loss</li>
+
+<li>For \(t\) from \(0\) to \(T-1\)
+
+<ol class="org-ol">
+<li>Compute \(\delta x_t\): \(\delta x_t\leftarrow x_t - \bar{x}_t\)</li>
+<li>Compute \(\delta u_t\) using \eqref{eq:du}:
+\(\delta u_t\leftarrow K_t\delta x_t + d_t\)</li>
+<li>Update controls: \(u_t\leftarrow \bar{u}_t + \delta u_t\)</li>
+<li>Aggregate loss: \(L\leftarrow L + x_t^\top Qx_t + u_t^\top u_t\)</li>
+<li>Get next state from dynamics: \(x_{t+1}\leftarrow f(x_t, u_t)\)</li>
+</ol></li>
+
+<li>\(L\leftarrow L + x_T^\top Q_fx_T\), the final state penalty</li>
+
+<li>Return \((\{x_t\}_{t=0}^{T}, \{u_t\}_{t=0}^{T-1}, L)\)</li>
+</ul>
+
+<p>
+And that's it! Now we've discussed all of the essential math to
+understand how the iLQR algorithm works. We simply alternate between
+computing the gains to improve the controls and improving the controls
+to generate new trajectories, until the controls stop changing (this
+sounds suspiciously similar to Value Iteration, but there are some key
+differences). I think it's finally time to see a demo. I implemented an
+iLQR algorithm to swing up an inverted pendulum on a cart. The system
+has a four-dimensional state space consisting of position, velocity,
+pole angle, and angular velocity, and the control signal is a scalar
+force applied to the cart. The swingup task is nonlinear, so linear
+algorithms tend to struggle with this task.
+</p>
+
+<video autoplay loop src="../../assets/img/ilqrswingup.webm" style="max-width: 100%; max-height: 600px; text-align: center; margin: auto; display: block"/>
+
+<p>
+Calm down, Boston Dynamics. I gotta finish grad school before I can help
+you make Spot as good as this.
+</p>
+</div>
+</div>
+
+<div id="outline-container-implementation-details-and-tricks" class="outline-3">
+<h3 id="implementation-details-and-tricks">Implementation Details and Tricks</h3>
+<div class="outline-text-3" id="text-implementation-details-and-tricks">
+<p>
+While the optimization part of iLQR is derived above, some
+implementation details were omitted. Moreover, in implementing this
+algorithm, I found that some "tricks" were either essential or very
+helpful to yield successful controllers. Read on to learn more about
+this.
+</p>
+</div>
+
+<div id="outline-container-the-initial-trajectory" class="outline-4">
+<h4 id="the-initial-trajectory">The Initial Trajectory</h4>
+<div class="outline-text-4" id="text-the-initial-trajectory">
+<p>
+Before iLQR even begins, we must have some initial trajectory of states
+and controls. It is natural to wonder how one concocts such an initial
+trajectory. Unfortunately, in the general case, there is no single
+"right way" to do this, unless somehow you know of a trajectory that is
+somewhat close to optimal. Otherwise, to the best of my knowledge, we
+can use some heuristics to generate a trajectory of controls and
+initialize the state trajectory according to the dynamics following
+those controls. Here's some ideas for generating the control trajectory
+that I played with:
+</p>
+
+<ul class="org-ul">
+<li>\(u_t = 0\): This one was suggested by Li and Todorov (the inventors
+of iLQR). Intuitively, this might make training a little slow if the
+starting state is in a stable equilibrium.</li>
+<li>\(u_t = \alpha\sin(\omega t), \alpha,\omega\in\mathbf{R}\): This is
+likely to make more sense for scalar controls, but it ensures that a
+nice range of controls will be attempted in the initial trajectory. I
+found this worked slightly better than the "zero initialization" for
+the swingup.</li>
+<li>\(u_t\sim\mathcal{N}(0, \Sigma), \Sigma=\Sigma^\top\in\mathbf{R}^{n_u\times
+  n_u}_{\geq 0}\succ 0\): Zero-centered random controls. This one was
+the best during my experiments.</li>
+</ul>
+
+<p>
+Since iLQR is an iterative nonlinear optimization algorithm,
+initialization can definitely have an affect on the final controller.
+Playing with various initialization schemas would be wise.
+</p>
+</div>
+</div>
+
+<div id="outline-container-gradient-clipping" class="outline-4">
+<h4 id="gradient-clipping">Gradient Clipping</h4>
+<div class="outline-text-4" id="text-gradient-clipping">
+<p>
+I cannot emphasize enough how <b>essential</b> this trick was. When tuning my
+iLQR implementation, I noticed that the controller would fail to swing
+up the pole because it wouldn't accelerate fast enough, which I
+attributed to penalizing velocities and control magnitudes too much. But
+when I would try reducing these penalties, iLQR would outright explode:
+velocities and angular velocities would shoot up, and the loss would
+skyrocket, leading to a completely abysmal final trajectory. After
+further inspection, I noticed that \(|\delta u_t|\) was blowing up. To
+prevent this from happening, I implemented the following adjustment
+</p>
+
+<p>
+\(
+\delta u_t = \text{sgn}(K_t\delta x_t + d_t)\min(K_t\delta x_t + d_t, \Delta)
+\)
+</p>
+
+<p>
+where \(\text{sgn}(x) = |x|/x\), which essentially clips the control
+updates to some magnitude \(\Delta\). Note that while this
+transformation is defined for scalar controls, an equivalent
+transformation for vector controls can be derived without much trouble.
+Upon employing this trick, these divergence issues ceased <b>immediately</b>.
+This allowed me to be much more flexible with my cost functions, and
+ultimately allowed me to tune my iLQR to a competent solution in a
+finite amount of time.
+</p>
+
+<p>
+This trick <i>does</i> impose an additional hyperparameter, however in my
+experiments I found that this hyperparameter was very easy to tune.
+Moreover, when \(\Delta\) is "too low", the only consequence is that
+iLQR won't make progress as quickly, which normally isn't such a big
+deal.
+</p>
+
+<p>
+Alternatively, line search methods or adjustable (perhaps even adaptive)
+\(\delta
+u_t\) step sizes could potential help solve this problem. However, these
+methods involve hyperparameters of their own, and I still believe
+gradient clipping could be necessary &#x2013; for instance, say you update
+\(u_t\leftarrow\bar{u}_t +
+\alpha\delta u_t\) for some small step size \(\alpha\), but
+\(||\delta u_t||\) is enormous. The small step size would dampen the
+effect of this, but without forcing <i>very</i> small step sizes, this can't
+eliminate the divergence issue I was experiencing. Combining gradient
+clipping with line search or adaptive step sizes would likely be the
+most robust strategy, however gradient clipping on its own was more than
+sufficient enough for my purposes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-scaling-cost-function-weights" class="outline-4">
+<h4 id="scaling-cost-function-weights">Scaling Cost Function Weights</h4>
+<div class="outline-text-4" id="text-scaling-cost-function-weights">
+<p>
+This trick allowed me to design my cost functions with much more
+intuition, which proved to be very helpful. Firstly, if you distinguish
+\(Q_f\) from \(Q\), the influence of the penalties governed by \(Q\) to
+the total trajectory cost will devastatingly outweigh that of \(Q_f\)
+for long time horizons. It might even be wise to let \(Q = 0\) if you
+mostly care about penalizing state at the end of the trajectory.
+Otherwise, I found that scaling \(Q\) by a factor of \(1/T\) helped
+design \(Q\) and \(Q_f\) quite a bit.
+</p>
+
+<p>
+Moreover, if the state variables are measured on different scales, this
+should be compensated for. Let's say you want to penalize deviations in
+angle twice as much as deviations in velocity. Angles are confined to
+\([0,2\pi]\), while velocities could be much larger, say in the range
+\([-v_{\max},v_{\max}]\). Therefore it doesn't suffice to assign twice
+the weight to deviations in angle, since a deviation of \(\pi\) radians
+is most likely much more significant than a deviation of \(\pi\) in
+velocity. Let \(r_i\) denote the range of state \(i\), which would be
+\(2\pi\) for angles and \(2v_{\max}\) for the velocity example. To
+compensate for changes of scale, let \(\tilde{Q}\) be the "intuitive"
+cost matrix (that is, one where you assign twice the weight to a state
+deviation you want to penalize twice as much), and compute \(Q\)
+according to
+</p>
+
+\begin{align*}
+Q = \begin{pmatrix}r_1^{-1} & 0 & \dots & 0\\0 & r_2^{-1} & \dots & 0\\0 & 0 &
+\ddots & \vdots\\0 & 0 & \dots & r_n^{-1}\\\end{pmatrix}\tilde{Q}
+\end{align*}
+</div>
+</div>
+
+<div id="outline-container-computing-jacobians-the-lazy-way" class="outline-4">
+<h4 id="computing-jacobians-the-lazy-way">Computing Jacobians the Lazy Way</h4>
+<div class="outline-text-4" id="text-computing-jacobians-the-lazy-way">
+<p>
+In the derivation of the iLQR optimization math, we needed to compute a
+bunch of Jacobians. This doesn't necessarily cause too much trouble,
+since given the dynamics model we can simply write out the Taylor
+expansions on paper and then code them up. I can think of two reasons
+why we might prefer a workaround for this:
+</p>
+
+<ol class="org-ol">
+<li>The state-control space is large, so deriving the Jacobians could be
+very time consuming and/or error-prone (or you're simply too lazy to
+derive the Jacobians)</li>
+<li>You don't actually have an explicit dynamics model (for instance,
+perhaps you have a powerful simulator instead)</li>
+</ol>
+
+<p>
+Fortunately, we can automatically approximate Jacobians using the method
+of <a href="https://en.wikipedia.org/wiki/Finite_difference_method">finite
+differences</a>, which is so easy to implement that it's almost
+irresistible. The method essentially works by perturbing each variable
+to be differentiated by some small \(\epsilon>0\) in each direction and
+examining how that changes the output, like so:
+</p>
+
+\begin{align*}
+\frac{\partial f}{\partial x_i}\bigg\rvert_{\mathbf{x}}\approx
+\frac{f(x_1,\dots, x_i+\epsilon,\dots x_n) - f(x_1,\dots, x_i - \epsilon,\dots
+    x_n)}{2\epsilon}
+\end{align*}
+
+<p>
+If the function \(f\) is "smooth enough", we can approximate the
+Jacobian arbitrarily well by shrinking \(\epsilon\). For example,
+approximating the Jacobian with respect to states for a dynamics
+function \(f:\mathbf{R}^n\times
+\mathbf{R}^{n_u}\to\mathbf{R}^n\) can be achieved as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a626a4;">def</span> <span style="color: #0184bc;">finite_differences</span>(dynamics, x, u, eps):
+  <span style="color: #8b4513;">n</span> = x.shape[0]
+  <span style="color: #8b4513;">jacobian</span> = np.zeros((n, n))
+  <span style="color: #a626a4;">for</span> i <span style="color: #a626a4;">in</span> <span style="color: #e44649;">range</span>(n):
+    <span style="color: #8b4513;">dxp</span> = x.copy()
+    <span style="color: #8b4513;">dxp</span>[<span style="color: #8b4513;">i</span>] += eps
+    <span style="color: #8b4513;">x_inc</span> = dynamics(dxp, u)
+    <span style="color: #8b4513;">dxm</span> = x.copy()
+    <span style="color: #8b4513;">dxm</span>[<span style="color: #8b4513;">i</span>] -= eps
+    <span style="color: #8b4513;">x_dec</span> = dynamics(dxm, u)
+    <span style="color: #8b4513;">jacobian</span>[:, i] = (x_inc - x_dec) / (2 * eps)
+  <span style="color: #a626a4;">return</span> jacobian
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-references" class="outline-3">
+<h3 id="references">References</h3>
+<div class="outline-text-3" id="text-references">
+<ol class="org-ol">
+<li><a href="https://homes.cs.washington.edu/~todorov/papers/LiICINCO04.pdf">Li
+and Todorov &#x2013; Iterative Linear Quadratic Regulator Design for
+Nonlinear Biological Movement Systems</a></li>
+<li><a href="https://rexlab.stanford.edu/papers/iLQR_Tutorial.pdf">Jackson and
+Howell &#x2013; iLQR Tutorial</a></li>
+<li><a href="https://studywolf.wordpress.com/2016/02/03/the-iterative-linear-quadratic-regulator-method/">Travis
+DeWolf &#x2013; The Iterative Linear Quadratic Regulator Algorithm</a></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Harley Wiltzer</p>
+<p class="date">Created: 2022-05-15 Sun 16:24</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

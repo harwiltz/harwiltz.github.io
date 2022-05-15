@@ -1,0 +1,22 @@
+.outline-2 {
+    margin: 1em;
+}
+
+.coordinates ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: -1em;
+}
+.coordinates li {
+    padding: 0;
+}
+
+.post-list ol {
+    list-style-type: lower-greek;
+    padding: 0;
+}
+
+.research-list ol {
+    list-style-type: lower-greek;
+    padding: 0;
+}

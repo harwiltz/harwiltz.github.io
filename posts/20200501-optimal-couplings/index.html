@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-05-15 Sun 16:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Optimal Couplings Exist</title>
+<meta name="author" content="Harley Wiltzer" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<link rel="stylesheet" type="text/css" href="../../assets/css/pandoc.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<div class="header-navbar" id="orgc88d450">
+<ul class="org-ul">
+<li><a href="../.././index.html">Home</a></li>
+<li><a href="../.././about">About</a></li>
+</ul>
+<hr />
+
+</div>
+
+<div id="outline-container-orga6d2a6a" class="outline-2">
+<h2 id="orga6d2a6a">Optimal Couplings Exist</h2>
+<div class="outline-text-2" id="text-orga6d2a6a">
+<p>
+<i>Harley Wiltzer, May 2020</i>
+</p>
+
+<p>
+This post is a journey through the proof of a beautiful fact from the
+theory of optimal transportation. First let's define what a coupling is.
+</p>
+
+<p>
+Given two probability spaces \((\mathcal{X},\mu), (\mathcal{Y},\nu)\), a
+<i>coupling</i> of \((\mu,\nu)\) is simply a pair (shall we say couple?) of
+random variables \((X, Y)\) such that \(X\sim\mu,Y\sim\nu\). On the
+surface, this does not seem particularly inspiring, however we will
+hopefully learn that couplings can dramatically simplify analysis.
+Constructing coupling arguments has a somewhat artistic nature, since
+the simplification analysis often relies on choosing a clever
+correlation between the couple of random variables.
+</p>
+
+<p>
+Now let's define what it means for a coupling to be optimal. Suppose we
+have two metric spaces \(\mathcal{X},\mathcal{Y}\) and some cost
+function \(c\) that assigns a cost of <i>transporting</i> \(x\in\mathcal{X}\)
+to \(y\in\mathcal{Y}\). When \(\mathcal{X}=\mathcal{Y}\), an interesting
+and natural choice of the cost function is simply the distance function
+\(d\) of the metric space, perhaps raised to some power \(p\geq 1\). For
+probability spaces \((\mathcal{X},\mu),(\mathcal{Y},\nu)\), we say that
+a coupling \((X, Y)\) is optimal if it minimizes the expected
+transportation cost:
+</p>
+
+<p>
+\(
+(X, Y) = \inf_{X'\sim\mu, Y'\sim\nu}\mathbf{E}c(x, y) = \inf_{X'\sim\mu, Y'\sim\nu}\int_{\mathcal{X}\times\mathcal{Y}}c(x,
+    y)d\pi(x, y)
+\)
+</p>
+
+<p>
+where \((X, Y)\sim\pi\). What we want to show now is that such an
+optimal coupling <i>always exists</i> under some assumptions of the
+probability spaces and the cost function.
+</p>
+
+<p>
+Let's begin by stating out assumptions:
+</p>
+
+<ol class="org-ol">
+<li>\((\mathcal{X}, \mu), (\mathcal{Y},\nu)\) are Polish probability
+spaces. In other words, \(\mathcal{X},\mathcal{Y}\) are complete,
+separable metric spaces.</li>
+<li>There exists upper semicontinuous functions
+\(a: \mathcal{X}\to\mathbf{R}\cup\{-\infty\}\), \(b:
+   \mathcal{Y}\to\mathbf{R}\cup\{-\infty\}\) where \(a\) is integrable
+w.r.t. \(\mu\) and \(b\) is integrable w.r.t. \(\nu\), such that the
+cost function \(c\) satisfies \(c(x, y)\geq a(x) +
+   b(y)\) for each \(x, y\).</li>
+<li>The cost function
+\(c:\mathcal{X}\times\mathcal{Y}\to\mathbf{R}\cup\{\infty\}\) is
+lower semicontinuous.</li>
+</ol>
+
+<p>
+To begin, we'd like to show that \(\Pi(\mu,\nu)\), the space of
+couplings of \((\mu,\nu)\), is compact. Prokhorov's theorem, which shows
+a relationship between compactness and tightness in Polish spaces, will
+be really handy here. The theorem states the following:
+</p>
+
+<blockquote>
+<p>
+<b>Theorem (Prokhorov)</b>: If \(\mathcal{X}\) is a Polish space, then a set
+\(\mathcal{P}\subset\mathscr{P}(\mathcal{X})\) is precompact (has compact
+closure) w.r.t. the weak topology if and only if it is tight; that is,
+for any \(\mu\in\mathcal{P}\) and \(\varepsilon>0\), there is a compact set
+\(K_\varepsilon\subset\mathcal{X}\) such that \(\mu(\mathcal{X}\setminus
+K_\varepsilon)\leq\varepsilon\).
+</p>
+</blockquote>
+
+<p>
+Moving forward, we'd like to show that if \(\mathcal{P},\mathcal{Q}\)
+are subsets of \(\mathscr{P}(\mathcal{X}),\mathscr{P}(\mathcal{Y})\)
+respectively, then the set \(\Pi(\mathcal{P},
+\mathcal{Q})\) of all couplings with marginals in \(\mathcal{P}\) and
+\(\mathcal{Q}\) is itself tight in
+\(\mathscr{P}(\mathcal{X}\times\mathcal{Y})\). Then, by Prokhorov's
+theorem, we will have shown that \(\Pi(\mathcal{P},\mathcal{Q})\) has a
+compact closure.
+</p>
+
+<p>
+Fix some \(\varepsilon>0\). Since \(\mathcal{P},\mathcal{Q}\) are tight
+by assumption, there exist sets \(K_{\varepsilon/2},L_{\varepsilon/2}\)
+such that regardless of \(\mu\in\mathcal{P}\) and \(\nu\in\mathcal{Q}\),
+we have \(\mu(\mathcal{X}\setminus K_{\varepsilon/2})\leq\varepsilon/2\)
+and similarly
+\(\nu(\mathcal{Y}\setminus L_{\varepsilon/2})\leq\varepsilon/2\). Then,
+for any coupling \((X, Y)\) of \((\mu,\nu)\), we have
+</p>
+
+<p>
+\(
+\Pr((X, Y)\not\in K_{\varepsilon/2}\times L_{\varepsilon/2})\leq\Pr(X\not\in K_{\varepsilon/2}) +
+\Pr(Y\not\in L_{\varepsilon/2}) = \varepsilon/2 + \varepsilon/2 = \varepsilon
+\)
+</p>
+
+<p>
+Therefore, for any probability measure
+\(\pi\in\Pi(\mathcal{P}\times\mathcal{Q})\) and \(\varepsilon>0\), we
+have \(\pi(\mathcal{X}\times\mathcal{Y}\setminus
+K_{\varepsilon/2},L_{\varepsilon/2})\leq\varepsilon\), so
+\(\Pi(\mathcal{P}, \mathcal{Q})\) is tight and therefore precompact, by
+Prokhorov's theorem.
+</p>
+
+<p>
+In particular, \(\{\mu\}, \{\nu\}\) are both clearly tight sets.
+Therefore, \(\Pi(\mu,\nu)\), the space of all couplings of
+\((\mu, \nu)\) is precompact. In fact, it can be shown that \(\Pi(\mu,
+\nu)\) is closed, so it is equal to its closure, and it is therefore
+compact.
+</p>
+
+<p>
+Since \(\Pi(\mu,\nu)\) is compact, every sequence in \(\Pi(\mu,\nu)\)
+has a convergent subsequence. Let \((\pi_i)_{i\in\mathbf{N}}\) denote a
+convergent sequence in \(\Pi(\mu,\nu)\) such that the "transport cost"
+\(\int cd\pi_i\) converges to its infimum value. Then we can assume that
+\(\pi_i\overset{i\to\infty}{\longrightarrow}\pi\in\Pi(\mu,\nu)\). To
+ensure that \(\pi\) itself is the law of an optimal coupling, we need to
+show that \(\int cd\pi = \liminf_{k\to\infty}\int
+cd\pi_k\).
+</p>
+
+<p>
+Let there be some upper semicontinuous function \(h\) that is integrable
+w.r.t. each \(\pi_i\) and \(\pi\), such that \(c\geq h\). Then
+\(\tilde{c} = c - h\) is a non-negative, lower semicontinuous function
+that is integral w.r.t. each \(\pi_i\) and \(\pi\) as well. Since
+\(\tilde{c}\) is a lower semicontinuous function to the nonnegtive real
+numbers, we construct a sequence of continuous functions
+\((\tilde{c}_k)_{k\in\mathbf{N}}\) that converges to \(\tilde{c}\), such
+that \(\tilde{c}_{k+1}\geq\tilde{c}_k\). Using the monotone convergence
+theorem, we have
+</p>
+
+<p>
+\(
+\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}(x, y)d\pi =
+\int_{\mathcal{X}\times\mathcal{Y}}\lim_{k\to\infty}\tilde{c}_k(x, y)d\pi =
+\lim_{k\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}_k(x, y)d\pi
+\)
+</p>
+
+<p>
+Using the monotone convergence theorem again, we have
+</p>
+
+<p>
+\(
+\lim_{k\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}_k(x, y)d\pi =
+  \lim_{k\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}_k(x, y)\lim_{i\to\infty}d\pi_i
+  =\lim_{k\to\infty}\lim_{i\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}_k(x, y)d\pi_i
+\)
+</p>
+
+<p>
+Ultimately, this leads us to the conclusion that
+</p>
+
+<p>
+\(
+\int_{\mathcal{X}\times\mathcal{Y}}cd\pi = \lim_{k\to\infty}\lim_{i\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}_kd\pi_i \leq \liminf_{i\to\infty}\int_{\mathcal{X}\times\mathcal{Y}}\tilde{c}d\pi_i
+\)
+</p>
+
+<p>
+So, since \(c(x, y)\geq a(x) + b(y)\), letting \(h(x, y) = a(x) + b(y)\)
+we see that \(\int
+(c - h)d\pi\leq\liminf_{i\to\infty}\int(c-h)d\pi_i\), so the coupling
+defined by \(\pi\) minimizes the transportation cost! Of course, this is
+relative to the cost function \(c-h\) rather than \(c\). According to
+Villani, we can usually let \(a = b = 0\) so that \(c - h = c\).
+</p>
+</div>
+
+<div id="outline-container-summary-tldr" class="outline-3">
+<h3 id="summary-tldr">Summary (TL;DR)</h3>
+<div class="outline-text-3" id="text-summary-tldr">
+<p>
+Let's summarize what we just did.
+</p>
+
+<ol class="org-ol">
+<li>We first showed that \(\Pi(\mu,\nu)\), the space of couplings of
+\((\mu,\nu)\) is compact using Prokhorov's theorem.</li>
+<li>Since \(\Pi(\mu,\nu)\) is compact, we deduced that we can construct a
+convergent sequence of couplings with laws \(\pi_i\) such that the
+transportation cost converges to its infimum, and we say
+\(\pi_i\longrightarrow\pi\).</li>
+<li>Using the monotone convergence theorem, we show that \(\int
+   cd\pi\leq\liminf_{i\to\infty}\int cd\pi_i\), which proves that the
+distribution \(\pi\) with marginals \(\mu,\nu\) minimizes the
+transportation cost.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-references" class="outline-2">
+<h2 id="references">References</h2>
+<div class="outline-text-2" id="text-references">
+<p>
+I learned the ideas behind this proof from the great textbook by
+Villani,
+<a href="https://www.semanticscholar.org/paper/Optimal-Transport%3A-Old-and-New-Villani/ca73ce2623aa93bf32b88f7fb998af9576aed20f">"Optimal
+Transport: Old and New"</a> (Theorem 4.1).
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Harley Wiltzer</p>
+<p class="date">Created: 2022-05-15 Sun 16:24</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
