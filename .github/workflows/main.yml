@@ -6,13 +6,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: silex/emacs
     steps:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
     - name: build
-      uses: docker://silex/emacs
       run: |
         mkdir -p docs
         emacs --batch -l publish.el --eval '(publish-site "docs" t)'
