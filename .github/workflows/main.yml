@@ -12,6 +12,6 @@ jobs:
       with:
         fetch-depth: 1
     - name: build
-      uses: silex/emacs
+      uses: docker://silex/emacs
       with:
         args: ./build-site.sh
