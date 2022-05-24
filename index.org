@@ -15,6 +15,7 @@
 - @@html:<icon class="fa-solid fa-envelope-open"></icon>@@ =harley.wiltzer@mail.mcgill.ca=
 - @@html:<icon class="fa-brands fa-github"></icon>@@ [[https://github.com/harwiltz][harwiltz]]
 - @@html:<icon class="fa-brands fa-gitlab"></icon>@@ [[https://gitlab.com/harwiltz][harwiltz]]
+- @@html:<icon class="fa-solid fa-pen-nib"></icon>@@ [[./assets/AcademicCV.pdf][CV]] (last updated 24/05/2022)
 #+END_coordinates
 
 ** Research
