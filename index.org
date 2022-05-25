@@ -20,8 +20,8 @@
 
 ** Research
 #+BEGIN_research-list
-1. /Distributional Hamilton-Jacobi-Bellman Equations for
-   Continuous-Time Reinforcement Learning/. @@html: <br>@@
+1. /[[https://arxiv.org/abs/2205.12184][Distributional Hamilton-Jacobi-Bellman Equations for
+   Continuous-Time Reinforcement Learning]]/. @@html: <br>@@
    *Harley Wiltzer*, David Meger, Marc G. Bellemare @@html: <br>@@
    ICML 2022 (to appear)
 1. [[./assets/thesis-msc.pdf][On the Evolution of Return Distributions in Continuous-Time
