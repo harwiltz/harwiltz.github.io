@@ -29,6 +29,11 @@
    M.Sc. Thesis.
 #+END_research-list
 
+** Talks
+1. [[https://bluejeans.com/s/bSa8N0a2wkS][Distributional Hamilton-Jacobi-Bellman Equations for
+   Continuous-Time Reinforcement Learning]]. @@html: <br>@@
+   RL Sofa at Mila.
+
 ** Rants
 #+BEGIN_SRC elisp :exports results :results raw
 (let* ((post-dirs (reverse (directory-files "./posts" nil "^[^.]")))
