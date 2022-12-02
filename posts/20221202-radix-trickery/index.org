@@ -1,0 +1,295 @@
+#+TITLE: Radix Trickery
+#+AUTHOR: Harley Wiltzer
+#+OPTIONS: toc:nil num:nil title:nil
+
+#+INCLUDE: "../../header.org"
+
+* Radix Trickery
+/Harley Wiltzer, December 2022/
+
+This post demonstrates some neat tricks where representing numbers via
+different radixes can lead to nice simplifications. An example of such
+a trick is the infamous [[https://en.wikipedia.org/wiki/Radix_sort][Radix Sort]] algorithm, which seemingly sorts
+numbers in linear time (fine print needed). Here, we will see some
+other (simpler) radix magic.
+
+To begin, let's recall what we mean by "radix". Usually, when we
+write numbers, we interpret them as follows:
+
+\begin{equation*}
+\begin{aligned}
+74207281 = 7(10^7) + 4(10^6) + 2(10^5) + 0(10^4) + 7(10^3) + 2(10^2) + 8(10^1) + 1(10^0)
+\end{aligned}
+\end{equation*}
+
+The number "10" here is the /radix/, and is fairly arbitrary. In
+principle, we can alternatively represent numbers via similar
+decompositions replacing 10 with any integer greater than 1. In doing
+so, the alphabet of "digits" has to be changed: for radix $n$, rather
+than the digits $\{0,\dots, 9\}$, we use "\(n\)-gits"
+$\{0,\dots,n-1\}$. When $n > 10$, this means we need to invent new
+symbols. For example, the 12-gits may be written as
+$\{0,1,2,\dots,9,\texttt{A},\texttt{B}\}$ where
+$\texttt{A},\texttt{B}$ represent $10,11$ respectively. Now, we can
+express
+
+\begin{equation*}
+\begin{aligned}
+74207281 = [20\texttt{A}28041]_{12}\equiv 2(12^7) + 0(12^6) + 10(12^5) + 2(12^4) + 8(12^3) + 0(12^2) + 4(12^1) + 1(12^0)
+\end{aligned}
+\end{equation*}
+
+where $[x]_{n}$ denotes $x$ written with respect to radix $n$.
+
+In the sequel, we will frequently be interested in the sequence of
+\(n\)-gits that form a radix $n$ representation of a number. We will
+express these as follows:
+
+\begin{equation*}
+\begin{aligned}
+\quad [x]_n = (x_k)
+\end{aligned}
+\end{equation*}
+
+which means that the \(n\)-git in the $n^k$ position of $[x]_n$ is
+$x_k$. It is implicit that $k$ ranges from $0$ to $\infty$, where $x_k
+= 0$ whenever $n^k>x$.
+We will also maintain the assumption that all radixes of
+interest are small, that is, they themselves are comprised of $O(1)$ digits.
+
+** Divisibility Tricks
+Suppose we want to check if some integer $x$ is divisible by a natural
+number $a$. We'll assume that $x$ is $N$ digits long, and $a$ has
+$O(1)$ digits. Naturally, determining if $a$ divides $x$ naively takes
+$\Theta(N)$ time. Often, we can do better than this. For instance,
+suppose $a\in\{1,2,5,10\}$. Then we can actually determine if $a$
+divides $x$ by checking only the last digit of $x$ -- this requires
+only $O(1)$ time. What's special about these numbers? Well, they are
+precisely the factors of $10$. So, if instead we used a radix $b$ with
+many factors, we should expect to determine divisibility in constant
+time for a larger set of divisors.
+
+#+ATTR_LATEX: :options [Constant Time Divisibility]
+#+NAME: Constant Time Divisibility
+#+begin_proposition
+Let $[x]_b = (x_k)$ be given, and suppose $a$ divides $b$. Then it only takes
+$O(1)$ time to decide if $a$ divides $[x]_b$. In particular, $a$
+divides $[x]_b$ if and only if $a$ divides $x_0$.
+#+end_proposition
+
+#+begin_proof
+Note that $[x]_b = b(x_{k+1}) + x_0 = an + x_0$ for some
+natural number $n$, since $a$ divides $b$. Then clearly if $a$ divides $x_0$, we have $[x]_b
+= a(n + m)$ for
+some natural number $m$, and consequently $a$ divides
+$[x]_b$. Conversely, if $a$ divides $[x]_b$, then $[x]_b = am$ for
+some natural number $m$, so
+
+\begin{equation*}
+\begin{aligned}
+am &= an + x_0\\
+x_0 &= a(m - n)
+\end{aligned}
+\end{equation*}
+
+and clearly $a$ divides $x_0$.
+#+end_proof
+
+So, given an arbitrarily large number written in radix 12 for
+instance, we can check if it's divisible by any of $\{1,2,3,4,6,12\}$
+just by checking the last 12-git. We can actually extend this a little bit further.
+
+#+ATTR_LATEX: :options [Constant Time Divisibility (Cont)]
+#+NAME: Constant Time Divisibility (Cont)
+#+begin_proposition
+Let $[x]_b = (x_k)$ be given, and suppose $a$ divides $b^n$
+for some natural number $n\geq 1$. Then $a$ divides $[x]_b$ if and
+only if $a$ divides $(x_k)_{k < n}$ (that is, the \(n\) least
+significant \(b\)-gits of $[x]_b$).
+#+end_proposition
+
+#+begin_proof
+Similarly to the last proposition, we can write
+
+\begin{equation*}
+\begin{aligned}
+\quad[x]_b &= b^n(x_{k+n}) + (x_k)_{k < n}
+\end{aligned}
+\end{equation*}
+
+The proof follows in the exact same way.
+#+end_proof
+
+Now, given an arbitrarily large number written in radix 12, we can
+check if it's divisible by any of $\{1,2,3,4,6,9,16,36,144\}$ simply
+by checking the last 2 12-gits. In base 10, this would only work for
+checking the divisibility of $\{1,2,4,5,10,100\}$.
+
+
+The next trick, in my opinion, is especially cool. Rather than using
+only that last few \(n\)-gits to determine divisibility of a number, we will
+determine the divisibility by analyzing the /digit sum/ of the
+number. The digit sum is a quantity that depends on the radix that the
+number is represented in. If $[x]_b = (x_k)$, we write the digit sum
+of $[x]_b$ as $\oplus(x_k) = \sum_kx_k$.
+We'll begin by
+looking at how it manifests itself in decimal, and then generalize.
+
+#+ATTR_LATEX: :options [The Digit Sum Trick]
+#+NAME: The Digit Sum Trick
+#+begin_theorem
+Let $x$ be an integer with $N$ digits and let $a\in\{3,9\}$. Then $a$ divides $x$ if
+and only if $a$ divides the digit sum of $x$.
+#+end_theorem
+
+#+begin_proof
+We will establish this identity by analyzing the difference between a
+number and its digit sum. Let $x = (x_k)$. We have
+
+\begin{equation*}
+\begin{aligned}
+x - \oplus(x_k) &= \sum_{k=0}^N10^kx_k - \sum_{k=0}^Nx_k\\
+&= \sum_{k=0}^Nx^k(10^k - 1)\\
+&= \sum_{k=1}^Nx^k(10^k - 1)
+\end{aligned}
+\end{equation*}
+
+Notice that for any $k\geq 1$, we have $10^k -1 = (9)$ (all digits are
+nines). Clearly, this implies that $x - \oplus(x_k)$ is a multiple of
+$9$, so it is a multiple of $a$. Therefore, if $\oplus(x_k)$ is a multiple of $a\in\{3,9\}$, then
+$x$ must also be a multiple of $a$. Likewise, if $x$ is a multiple of
+$a\in\{3,9\}$, then it must also be the case that $\oplus(x_k)$ is a
+multiple of $a$ -- otherwise $x - \oplus(x_k)$ cannot be a multiple of $a$.
+#+end_proof
+
+The significance of this identity is that the digit sum of a number is
+/much/ smaller than the number itself. In particular, if $x = (x_k)$ has
+$N$ digits, we have $\oplus(x_k)\leq 9N\in O(\log x)$. Moreover,
+computing the digit sum of a number is much faster than checking for
+divisibility naively.
+
+What makes the numbers 3 and 9 special? From the proof, we see that
+the identity works because these numbers always divide numbers of the
+form $999\dots 9$. For an arbitrary radix $b$, this is equivalent to
+numbers dividing $nnn\dots n$, where  $n = b - 1$. This condition
+would be satisfied for any number $a$ such that $b \% a = 1$, where
+$\%$ is the remainder operation: $b\% a$ is the remainder when
+dividing $b$ by $a$.
+
+#+ATTR_LATEX: :options [The Digit Sum Trick for Arbitary Radix]
+#+NAME: The Digit Sum Trick for Arbitary Radix
+#+begin_proposition
+Let $[x]_b = (x_k)$ be a given integer with $N$ \(b\)-gits, and let $a\in\mathbf{N}$ satisfy $b\%a =
+1$.
+Then $a$ divides $[x]_b$ if and only if $a$ divides $\oplus(x_k)$.
+#+end_proposition
+
+#+begin_proof
+As in the simpler case before, we look at the difference between a
+number and its digit sum:
+
+\begin{equation*}
+\begin{aligned}
+\quad[x]_b - \oplus(x_k) &= \sum_{k=1}^Nx_k(b^k - 1)
+\end{aligned}
+\end{equation*}
+
+We claim that $a$ divides $b^k - 1$ for each $k\geq 1$. This can be
+proved simply by induction on $k$. Our base case corresponds to $k =
+1$.
+Since $b\%a = 1$, there exists a natural number $m$ for which $b =
+am + 1$.
+Thus, $b - 1 = am$, so clearly $a$ divides $b - 1$, which proves the
+base case. Our induction hypothesis is that $a$ divides $b^k - 1$, and
+it remains to show that $a$ then divides $b^{k+1} - 1$. We have
+
+\begin{equation*}
+\begin{aligned}
+b^{k+1} - 1 &= b^kb - 1\\
+&= (b^k - 1 + 1)b - 1\\
+&= (b^k - 1)b + b - 1\\
+\end{aligned}
+\end{equation*}
+
+Note that $a$ divides both $b^k - 1$ and $b - 1$ by the induction
+hypothesis, so it follows that $a$ divides $b^{k+1} - 1$, proving the claim.
+
+Then, by the same logic as the decimal case, it follows that $a$
+divides $[x]_b$ if and only if $a$ divides $\oplus(x_k)$.
+#+end_proof
+
+As an example, this tells us that we can reduce the problem of
+deciding divisibility of a number by 7 to divisibility of the digit
+sum of the number in its octal (radix 8) representation by 7.
+
+** Geometric Series
+The following trick is something I came up with while daydreaming
+during my undergrad, which I was very proud of. I have since seen
+another person mention this trick in a Reddit thread, but otherwise I
+don't believe it is particularly well known. It's also not
+particularly useful, but it's pretty cool, if I may say so myself.
+
+Recall that a geometric series is a series of the following form
+
+\begin{equation*}
+\begin{aligned}
+S_n &= \sum_{k=0}^nb^k
+\end{aligned}
+\end{equation*}
+
+
+Usually, we think of $b$ as a real number. For the purpose of this
+trick though, it only makes sense to think of $b$ as a natural number
+where $b\geq 2$. The following closed form is well known.
+
+#+ATTR_LATEX: :options [Closed Form of Geometric Series]
+#+NAME: Closed Form of Geometric Series
+#+begin_theorem
+Let $b\in\mathbf{R}$. Then
+
+\begin{equation*}
+\begin{aligned}
+S_n &= \sum_{k=0}^nb^n = \frac{b^{n+1} - 1}{b - 1}
+\end{aligned}
+\end{equation*}
+#+end_theorem
+
+We will derive an elegant proof of this closed form that applies when
+$b$ is a natural number that is at least $2$. The trick is to express
+$S_n$ in radix $b$. We have
+
+\begin{equation*}
+\begin{aligned}
+[S_n]_b &=\sum_{k=0}^n[b^n]_b\\
+&= 1 + [10]_b + [100]_b + [1000]_b + \cdots\\
+&= (1)_{k\leq n}
+\end{aligned}
+\end{equation*}
+
+The beauty of this is that $[S_n]_b$ is super easy to mess around with
+algebraically. Naturally, we have
+
+\begin{equation*}
+\begin{aligned}
+(b - 1)[S_n]_b = (b - 1)_{k\leq n}
+\end{aligned}
+\end{equation*}
+
+We have seen numbers of this form before. In decimal, for example,
+this is equivalent to numbers of the form $999\dots 9$. Notably,
+adding 1 to such a number brings us to $100\dots 0$, which is
+$b^{n+1}$. This means that
+
+\begin{equation*}
+\begin{aligned}
+(b - 1)[S_n]_b + 1 &= b^{n+1}\\
+S_n = [S_n]_b &= \frac{b^{n+1} - 1}{b - 1}
+\end{aligned}
+\end{equation*}
+
+While this trick only makes sense when $b$ can be thought of as a
+radix, if you ever forget the closed form of the geometric series, you
+can use this technique to derive this form and prove that it works for
+any real $b$ by induction. Personally, I find this radix-based proof
+much more mechanical than the more common proofs of the closed form of
+the geometric series.
