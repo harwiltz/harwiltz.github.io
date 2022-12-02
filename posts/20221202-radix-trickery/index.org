@@ -121,9 +121,9 @@ The proof follows in the exact same way.
 #+end_proof
 
 Now, given an arbitrarily large number written in radix 12, we can
-check if it's divisible by any of $\{1,2,3,4,6,9,16,36,144\}$ simply
+check if it's divisible by any of $\{1,2,3,4,6,8,9,12,16,18,24,36,48,72,144\}$ simply
 by checking the last 2 12-gits. In base 10, this would only work for
-checking the divisibility of $\{1,2,4,5,10,100\}$.
+checking the divisibility of $\{1,2,4,5,10,25,50,100\}$.
 
 
 The next trick, in my opinion, is especially cool. Rather than using
