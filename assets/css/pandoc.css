@@ -258,6 +258,58 @@ table td {
   text-align: center;
 }
 
+.theorem, .definition, .lemma, .corollary, .proposition {
+    box-shadow: inset 2pt 2pt 6pt 4pt rgba(0, 0, 0, 0.2);
+    background-color: #eeeeee;
+    padding: 6pt;
+    margin: 8pt;
+}
+
+.theorem:before {
+    content: "Theorem: ";
+    font-weight: bold;
+}
+
+.proposition:before {
+    content: "Proposition: ";
+    font-weight: bold;
+}
+
+.definition:before {
+    content: "Definition: ";
+    font-weight: bold;
+}
+
+.lemma:before {
+    content: "Lemma: ";
+    font-weight: bold;
+}
+
+.corollary:before {
+    content: "Corollary: ";
+    font-weight: bold;
+}
+.proof:before {
+    content: "Proof";
+    font-weight: bold;
+    font-style: normal;
+}
+
+.proof {
+    margin: 12pt;
+    padding: 2pt;
+    background-color: #00f1;
+    border: 2px;
+    border-style: dashed;
+    border-color: #00f3;
+    border-radius: 4px;
+}
+
+.proof:after {
+    content: "QED.";
+    font-weight: 800;
+}
+
 @media only screen and (min-width: 480px) {
   body {
     font-size: 12pt;

@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-12-02 Fri 17:57 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Radix Trickery</title>
+<meta name="author" content="Harley Wiltzer" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="../../assets/css/pandoc.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css" />
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<div class="header-navbar" id="org7b047c8">
+<ul class="org-ul">
+<li><a href="../.././index.html">Home</a></li>
+<li><a href="../.././about">About</a></li>
+</ul>
+<hr />
+
+</div>
+
+<div id="outline-container-orge42e550" class="outline-2">
+<h2 id="orge42e550">Radix Trickery</h2>
+<div class="outline-text-2" id="text-orge42e550">
+<p>
+<i>Harley Wiltzer, December 2022</i>
+</p>
+
+<p>
+This post demonstrates some neat tricks where representing numbers via
+different radixes can lead to nice simplifications. An example of such
+a trick is the infamous <a href="https://en.wikipedia.org/wiki/Radix_sort">Radix Sort</a> algorithm, which seemingly sorts
+numbers in linear time (fine print needed). Here, we will see some
+other (simpler) radix magic.
+</p>
+
+<p>
+To begin, let's recall what we mean by "radix". Usually, when we
+write numbers, we interpret them as follows:
+</p>
+
+\begin{equation*}
+\begin{aligned}
+74207281 = 7(10^7) + 4(10^6) + 2(10^5) + 0(10^4) + 7(10^3) + 2(10^2) + 8(10^1) + 1(10^0)
+\end{aligned}
+\end{equation*}
+
+<p>
+The number "10" here is the <i>radix</i>, and is fairly arbitrary. In
+principle, we can alternatively represent numbers via similar
+decompositions replacing 10 with any integer greater than 1. In doing
+so, the alphabet of "digits" has to be changed: for radix \(n\), rather
+than the digits \(\{0,\dots, 9\}\), we use "\(n\)-gits"
+\(\{0,\dots,n-1\}\). When \(n > 10\), this means we need to invent new
+symbols. For example, the 12-gits may be written as
+\(\{0,1,2,\dots,9,\texttt{A},\texttt{B}\}\) where
+\(\texttt{A},\texttt{B}\) represent \(10,11\) respectively. Now, we can
+express
+</p>
+
+\begin{equation*}
+\begin{aligned}
+74207281 = [20\texttt{A}28041]_{12}\equiv 2(12^7) + 0(12^6) + 10(12^5) + 2(12^4) + 8(12^3) + 0(12^2) + 4(12^1) + 1(12^0)
+\end{aligned}
+\end{equation*}
+
+<p>
+where \([x]_{n}\) denotes \(x\) written with respect to radix \(n\).
+</p>
+
+<p>
+In the sequel, we will frequently be interested in the sequence of
+\(n\)-gits that form a radix \(n\) representation of a number. We will
+express these as follows:
+</p>
+
+\begin{equation*}
+\begin{aligned}
+\quad [x]_n = (x_k)
+\end{aligned}
+\end{equation*}
+
+<p>
+which means that the \(n\)-git in the \(n^k\) position of \([x]_n\) is
+\(x_k\). It is implicit that \(k\) ranges from \(0\) to \(\infty\), where \(x_k
+= 0\) whenever \(n^k>x\).
+We will also maintain the assumption that all radixes of
+interest are small, that is, they themselves are comprised of \(O(1)\) digits.
+</p>
+</div>
+
+<div id="outline-container-org6f18ad5" class="outline-3">
+<h3 id="org6f18ad5">Divisibility Tricks</h3>
+<div class="outline-text-3" id="text-org6f18ad5">
+<p>
+Suppose we want to check if some integer \(x\) is divisible by a natural
+number \(a\). We'll assume that \(x\) is \(N\) digits long, and \(a\) has
+\(O(1)\) digits. Naturally, determining if \(a\) divides \(x\) naively takes
+\(\Theta(N)\) time. Often, we can do better than this. For instance,
+suppose \(a\in\{1,2,5,10\}\). Then we can actually determine if \(a\)
+divides \(x\) by checking only the last digit of \(x\) &#x2013; this requires
+only \(O(1)\) time. What's special about these numbers? Well, they are
+precisely the factors of \(10\). So, if instead we used a radix \(b\) with
+many factors, we should expect to determine divisibility in constant
+time for a larger set of divisors.
+</p>
+
+<div class="proposition" id="org3dc2ff6">
+<p>
+Let \([x]_b = (x_k)\) be given, and suppose \(a\) divides \(b\). Then it only takes
+\(O(1)\) time to decide if \(a\) divides \([x]_b\). In particular, \(a\)
+divides \([x]_b\) if and only if \(a\) divides \(x_0\).
+</p>
+
+</div>
+
+<div class="proof" id="org89659ee">
+<p>
+Note that \([x]_b = b(x_{k+1}) + x_0 = an + x_0\) for some
+natural number \(n\), since \(a\) divides \(b\). Then clearly if \(a\) divides \(x_0\), we have \([x]_b
+= a(n + m)\) for
+some natural number \(m\), and consequently \(a\) divides
+\([x]_b\). Conversely, if \(a\) divides \([x]_b\), then \([x]_b = am\) for
+some natural number \(m\), so
+</p>
+
+\begin{equation*}
+\begin{aligned}
+am &= an + x_0\\
+x_0 &= a(m - n)
+\end{aligned}
+\end{equation*}
+
+<p>
+and clearly \(a\) divides \(x_0\).
+</p>
+
+</div>
+
+<p>
+So, given an arbitrarily large number written in radix 12 for
+instance, we can check if it's divisible by any of \(\{1,2,3,4,6,12\}\)
+just by checking the last 12-git. We can actually extend this a little bit further.
+</p>
+
+<div class="proposition" id="orge341993">
+<p>
+Let \([x]_b = (x_k)\) be given, and suppose \(a\) divides \(b^n\)
+for some natural number \(n\geq 1\). Then \(a\) divides \([x]_b\) if and
+only if \(a\) divides \((x_k)_{k < n}\) (that is, the \(n\) least
+significant \(b\)-gits of \([x]_b\)).
+</p>
+
+</div>
+
+<div class="proof" id="org6719a89">
+<p>
+Similarly to the last proposition, we can write
+</p>
+
+\begin{equation*}
+\begin{aligned}
+\quad[x]_b &= b^n(x_{k+n}) + (x_k)_{k < n}
+\end{aligned}
+\end{equation*}
+
+<p>
+The proof follows in the exact same way.
+</p>
+
+</div>
+
+<p>
+Now, given an arbitrarily large number written in radix 12, we can
+check if it's divisible by any of \(\{1,2,3,4,6,9,16,36,144\}\) simply
+by checking the last 2 12-gits. In base 10, this would only work for
+checking the divisibility of \(\{1,2,4,5,10,100\}\).
+</p>
+
+
+<p>
+The next trick, in my opinion, is especially cool. Rather than using
+only that last few \(n\)-gits to determine divisibility of a number, we will
+determine the divisibility by analyzing the <i>digit sum</i> of the
+number. The digit sum is a quantity that depends on the radix that the
+number is represented in. If \([x]_b = (x_k)\), we write the digit sum
+of \([x]_b\) as \(\oplus(x_k) = \sum_kx_k\).
+We'll begin by
+looking at how it manifests itself in decimal, and then generalize.
+</p>
+
+<div class="theorem" id="org6d0a29d">
+<p>
+Let \(x\) be an integer with \(N\) digits and let \(a\in\{3,9\}\). Then \(a\) divides \(x\) if
+and only if \(a\) divides the digit sum of \(x\).
+</p>
+
+</div>
+
+<div class="proof" id="orgf71b653">
+<p>
+We will establish this identity by analyzing the difference between a
+number and its digit sum. Let \(x = (x_k)\). We have
+</p>
+
+\begin{equation*}
+\begin{aligned}
+x - \oplus(x_k) &= \sum_{k=0}^N10^kx_k - \sum_{k=0}^Nx_k\\
+&= \sum_{k=0}^Nx^k(10^k - 1)\\
+&= \sum_{k=1}^Nx^k(10^k - 1)
+\end{aligned}
+\end{equation*}
+
+<p>
+Notice that for any \(k\geq 1\), we have \(10^k -1 = (9)\) (all digits are
+nines). Clearly, this implies that \(x - \oplus(x_k)\) is a multiple of
+\(9\), so it is a multiple of \(a\). Therefore, if \(\oplus(x_k)\) is a multiple of \(a\in\{3,9\}\), then
+\(x\) must also be a multiple of \(a\). Likewise, if \(x\) is a multiple of
+\(a\in\{3,9\}\), then it must also be the case that \(\oplus(x_k)\) is a
+multiple of \(a\) &#x2013; otherwise \(x - \oplus(x_k)\) cannot be a multiple of \(a\).
+</p>
+
+</div>
+
+<p>
+The significance of this identity is that the digit sum of a number is
+<i>much</i> smaller than the number itself. In particular, if \(x = (x_k)\) has
+\(N\) digits, we have \(\oplus(x_k)\leq 9N\in O(\log x)\). Moreover,
+computing the digit sum of a number is much faster than checking for
+divisibility naively.
+</p>
+
+<p>
+What makes the numbers 3 and 9 special? From the proof, we see that
+the identity works because these numbers always divide numbers of the
+form \(999\dots 9\). For an arbitrary radix \(b\), this is equivalent to
+numbers dividing \(nnn\dots n\), where  \(n = b - 1\). This condition
+would be satisfied for any number \(a\) such that \(b \% a = 1\), where
+\(\%\) is the remainder operation: \(b\% a\) is the remainder when
+dividing \(b\) by \(a\).
+</p>
+
+<div class="proposition" id="orgc127d96">
+<p>
+Let \([x]_b = (x_k)\) be a given integer with \(N\) \(b\)-gits, and let \(a\in\mathbf{N}\) satisfy \(b\%a =
+1\).
+Then \(a\) divides \([x]_b\) if and only if \(a\) divides \(\oplus(x_k)\).
+</p>
+
+</div>
+
+<div class="proof" id="orgd04ac73">
+<p>
+As in the simpler case before, we look at the difference between a
+number and its digit sum:
+</p>
+
+\begin{equation*}
+\begin{aligned}
+\quad[x]_b - \oplus(x_k) &= \sum_{k=1}^Nx_k(b^k - 1)
+\end{aligned}
+\end{equation*}
+
+<p>
+We claim that \(a\) divides \(b^k - 1\) for each \(k\geq 1\). This can be
+proved simply by induction on \(k\). Our base case corresponds to \(k =
+1\).
+Since \(b\%a = 1\), there exists a natural number \(m\) for which \(b =
+am + 1\).
+Thus, \(b - 1 = am\), so clearly \(a\) divides \(b - 1\), which proves the
+base case. Our induction hypothesis is that \(a\) divides \(b^k - 1\), and
+it remains to show that \(a\) then divides \(b^{k+1} - 1\). We have
+</p>
+
+\begin{equation*}
+\begin{aligned}
+b^{k+1} - 1 &= b^kb - 1\\
+&= (b^k - 1 + 1)b - 1\\
+&= (b^k - 1)b + b - 1\\
+\end{aligned}
+\end{equation*}
+
+<p>
+Note that \(a\) divides both \(b^k - 1\) and \(b - 1\) by the induction
+hypothesis, so it follows that \(a\) divides \(b^{k+1} - 1\), proving the claim.
+</p>
+
+<p>
+Then, by the same logic as the decimal case, it follows that \(a\)
+divides \([x]_b\) if and only if \(a\) divides \(\oplus(x_k)\).
+</p>
+
+</div>
+
+<p>
+As an example, this tells us that we can reduce the problem of
+deciding divisibility of a number by 7 to divisibility of the digit
+sum of the number in its octal (radix 8) representation by 7.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0c0f4bc" class="outline-3">
+<h3 id="org0c0f4bc">Geometric Series</h3>
+<div class="outline-text-3" id="text-org0c0f4bc">
+<p>
+The following trick is something I came up with while daydreaming
+during my undergrad, which I was very proud of. I have since seen
+another person mention this trick in a Reddit thread, but otherwise I
+don't believe it is particularly well known. It's also not
+particularly useful, but it's pretty cool, if I may say so myself.
+</p>
+
+<p>
+Recall that a geometric series is a series of the following form
+</p>
+
+\begin{equation*}
+\begin{aligned}
+S_n &= \sum_{k=0}^nb^k
+\end{aligned}
+\end{equation*}
+
+
+<p>
+Usually, we think of \(b\) as a real number. For the purpose of this
+trick though, it only makes sense to think of \(b\) as a natural number
+where \(b\geq 2\). The following closed form is well known.
+</p>
+
+<div class="theorem" id="orgcd8d454">
+<p>
+Let \(b\in\mathbf{R}\). Then
+</p>
+
+\begin{equation*}
+\begin{aligned}
+S_n &= \sum_{k=0}^nb^n = \frac{b^{n+1} - 1}{b - 1}
+\end{aligned}
+\end{equation*}
+
+</div>
+
+<p>
+We will derive an elegant proof of this closed form that applies when
+\(b\) is a natural number that is at least \(2\). The trick is to express
+\(S_n\) in radix \(b\). We have
+</p>
+
+\begin{equation*}
+\begin{aligned}
+[S_n]_b &=\sum_{k=0}^n[b^n]_b\\
+&= 1 + [10]_b + [100]_b + [1000]_b + \cdots\\
+&= (1)_{k\leq n}
+\end{aligned}
+\end{equation*}
+
+<p>
+The beauty of this is that \([S_n]_b\) is super easy to mess around with
+algebraically. Naturally, we have
+</p>
+
+\begin{equation*}
+\begin{aligned}
+(b - 1)[S_n]_b = (b - 1)_{k\leq n}
+\end{aligned}
+\end{equation*}
+
+<p>
+We have seen numbers of this form before. In decimal, for example,
+this is equivalent to numbers of the form \(999\dots 9\). Notably,
+adding 1 to such a number brings us to \(100\dots 0\), which is
+\(b^{n+1}\). This means that
+</p>
+
+\begin{equation*}
+\begin{aligned}
+(b - 1)[S_n]_b + 1 &= b^{n+1}\\
+S_n = [S_n]_b &= \frac{b^{n+1} - 1}{b - 1}
+\end{aligned}
+\end{equation*}
+
+<p>
+While this trick only makes sense when \(b\) can be thought of as a
+radix, if you ever forget the closed form of the geometric series, you
+can use this technique to derive this form and prove that it works for
+any real \(b\) by induction. Personally, I find this radix-based proof
+much more mechanical than the more common proofs of the closed form of
+the geometric series.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Harley Wiltzer</p>
+<p class="date">Created: 2022-12-02 Fri 17:57</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
