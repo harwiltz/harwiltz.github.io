@@ -7,7 +7,7 @@
 #+ATTR_HTML: :id me-photo
 [[./assets/img/me.jpg]]
 
-I am a first year PhD student at the
+I am a third year PhD student at the
 [[https://www.cim.mcgill.ca/~mrl][Mobile Robotics Lab]] at McGill
 University and [[https://www.mila.quebec][Mila]] in Montreal, Canada. I
 am fortunately supervised by [[https://www.cim.mcgill.ca/~dmeger][David

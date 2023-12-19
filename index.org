@@ -20,10 +20,16 @@
 
 ** Research
 #+BEGIN_research-list
+1. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
+   Neighborhood: On Return Landscapes in Continuous
+   Control]]/. @@html: <br>@@
+   Nate Rahn*, Pierluca D'Oro*, *Harley Wiltzer*, Pierre-Luc Bacon,
+   Marc G. Bellemare @@html: <br>@@
+   Neural Information Processing Systems, 2023
 1. /[[https://arxiv.org/abs/2205.12184][Distributional Hamilton-Jacobi-Bellman Equations for
    Continuous-Time Reinforcement Learning]]/. @@html: <br>@@
    *Harley Wiltzer*, David Meger, Marc G. Bellemare @@html: <br>@@
-   ICML 2022 (to appear)
+   International Conference on Machine Learning, 2022
 1. [[./assets/thesis-msc.pdf][On the Evolution of Return Distributions in Continuous-Time
    Reinforcement Learning]]. @@html: <br>@@
    M.Sc. Thesis.
