@@ -70,7 +70,11 @@ least approximately) as $\bar{M}^r(\cdot\mid x, a) = \bar{F}^r(x, a)^\top
 \bar{B}(\cdot)$, where $\bar{F}^r, \bar{B}^r$ have
 range $\mathbf{R}^d$. Note that $\bar{B}$ does not depend on $r$
 -- the idea here is that we want $\bar{B}$ to act as a "reward
-function encoder". Under this model, we have
+function encoder". It should also be noted that this factorization is
+not actually that restrictive: for large enough $d$, such a factorization
+will exist (in the extreme case for arbitrarily large $d$, we just
+have $B = \mathsf{Id}$ which is reward-independent). Under this model, optimal policies are
+characterized by
 
 \begin{align*}
 \pi^\star_r(x) &\in \arg\max_{a}\bar{F}^r(x, a)^\top\bar{B}r\\
