@@ -6,8 +6,8 @@
 <!-- 2024-01-04 Thu 22:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
-<meta name="author" content="root" />
+<title>Zero-Shot RL with the Forward-Backward Representation, Inside Out</title>
+<meta name="author" content="Harley Wiltzer" />
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -193,22 +193,226 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="./assets/css/pandoc.css" />
-<link rel="stylesheet" type="text/css" href="./assets/css/navbar.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/css/pandoc.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
-<div class="header-navbar" id="org217b5cb">
+<div class="header-navbar" id="org6375818">
 <ul class="org-ul">
-<li><a href="././index.html">Home</a></li>
-<li><a href="././about">About</a></li>
+<li><a href="../.././index.html">Home</a></li>
+<li><a href="../.././about">About</a></li>
 </ul>
 <hr />
 
 </div>
+
+<div id="outline-container-orgc43e1c7" class="outline-2">
+<h2 id="orgc43e1c7">Zero-Shot RL with the Forward-Backward Representation, Inside Out</h2>
+<div class="outline-text-2" id="text-orgc43e1c7">
+<p>
+In 2021, shortly after I started graduate school, Ahmed Touati and
+Yann Ollivier published <a href="https://arxiv.org/abs/2103.07945">Learning One Representation to Optimize All
+Rewards</a>, and this paper blew my mind. As the title suggests, the
+paper presents an algorithm for learning a representation (the
+<i>forward-backward representation</i>) that, in a
+sense, encodes all possible optimal policies for a given MDP
+simultaneously. You can see for yourself that this essentially does
+work by playing around with their fabulous <a href="https://controllable-agent.metademolab.com/">demo</a>, where you can
+literally prompt their model with a reward function and watch it
+(nearly instantly) derive a Walker policy that optimizes the return.
+</p>
+
+<p>
+The idea and the math behind the FB always seemed fairly magical to
+me. Recently, I derived the FB "inside-out" (relative to the
+exposition in the paper), which led to some nice intuitions and
+insights, which I will document here.
+</p>
+</div>
+
+<div id="outline-container-org1f5f5e0" class="outline-3">
+<h3 id="org1f5f5e0">The Inside Out Derivation</h3>
+<div class="outline-text-3" id="text-org1f5f5e0">
+<p>
+One way to achieve zero-shot transfer in RL &#x2013; that is, immediately
+inferring an optimal policy in an arbitrary (but Markovian) task &#x2013; is
+by modeling the successor measure (SM, defined <a href="#org0ccd29b">below</a> for completeness)
+for each optimal policy. Before
+FB, it was not clear how to do this, but in an ideal world where this
+could be done, we can imagine modeling this object as \(M^{\pi^\star_r}(\cdot\mid
+x, a)\)
+&#x2013; that is, a collection of successor measures for the policies
+\(\pi^\star_r\) that optimize the rewards \(r\). Now, we know something
+else that's interesting about optimal policies:
+</p>
+
+\begin{align*}
+\pi^\star_r(x) &\in \arg\max_aQ^{\pi^\star_r}(x, a)\\
+&= \arg\max_aM^{\pi^\star_r}r(x, a).
+\end{align*}
+
+<p>
+Note, however, that \(\pi^\star_r\) can be determined precisely by the
+reward function \(r\), so let's say \(\pi^\star_r =
+\mathsf{opt}(r)\). Equivalently, we now have
+</p>
+
+\begin{align*}
+\pi^\star_r(x) \in \arg\max_a\bar{M}^rr(x, a)
+\end{align*}
+
+<p>
+where \(\bar{M}^r = M^{\mathsf{opt}(r)}\). So, one way to learn
+\(\bar{M}\) is to randomly sample a reward function \(r\) from some
+prior, and then train \(\bar{M}^r\) with a TD update (see
+e.g. <a href="https://arxiv.org/pdf/2101.07123.pdf">algorithms for learning fixed-policy SMs</a>) by using the greedy
+action with respect to \(\bar{M}^rr\) in the bootstrap target. This
+does literally amount to learning a reward-function-conditioned SM
+with a greedy bootstrap target. Also, this is, roughly, exactly what
+the FB algorithm is doing.
+</p>
+</div>
+
+<div id="outline-container-org5ea1a3d" class="outline-4">
+<h4 id="org5ea1a3d">The Missing Piece: Task Embeddings</h4>
+<div class="outline-text-4" id="text-org5ea1a3d">
+<p>
+So why not stop there? To my understanding, the problem is that
+conditioning a function approximator on a <i>reward function</i> is
+nontrivial. To begin with, you cannot even represent a reward function
+exactly (it lives in an infinite-dimensional space
+generally). Moreover, the product \(\bar{M}^rr\) would be
+intractable to compute, as it would involve integrating over the state
+space. The brilliance of the FB algorithm is the realization that by
+<b>embedding the reward functions</b> into a finite dimensional space in a
+special way, both
+problems are simultaneously resolved. The idea is the
+following. Assume \(\bar{M}^r\) has a low-rank factorization (at
+least approximately) as \(\bar{M}^r(\cdot\mid x, a) = \bar{F}^r(x, a)^\top
+\bar{B}(\cdot)\), where \(\bar{F}^r, \bar{B}^r\) have
+range \(\mathbf{R}^d\). Note that \(\bar{B}\) does not depend on \(r\)
+&#x2013; the idea here is that we want \(\bar{B}\) to act as a "reward
+function encoder". Under this model, we have
+</p>
+
+\begin{align*}
+\pi^\star_r(x) &\in \arg\max_{a}\bar{F}^r(x, a)^\top\bar{B}r\\
+&= \arg\max_a\bar{F}^r(x, a)^\top z
+\end{align*}
+
+<p>
+where \(z := \int_{\mathcal{X}}r(x')B(\mathrm{d}x')\in\mathbf{R}^d\). But now,
+the greedy action depends only on \(z\)! Consequently, we can index
+optimal policies and the \(\bar{F}\) factor by the "reward
+embeddings" \(z\in\mathbf{R}^d\). This looks like the following:
+</p>
+
+\begin{align*}
+\begin{cases}
+\pi_z(x) \in \arg\max_a F^z(x, a)^\top z\\
+z = \int_{\mathcal{X}} r(x')B(\mathrm{d}x')\\
+F^z(x, a)^\top B(\cdot) = M^{\pi_z}(\cdot\mid x, a)
+\end{cases}
+\end{align*}
+
+<p>
+Notably, we now can easily represent \(F, B\) with function
+approximators. The paper shows some conditions on when such a
+factorization exists (and provides error bounds in the case where the
+factorization is only approximate). But the important lesson here, at
+least to me, is that FB innovates by compressing the space of reward
+functions in a clever way.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4b8c5cf" class="outline-3">
+<h3 id="org4b8c5cf">The Successor Measure</h3>
+<div class="outline-text-3" id="text-org4b8c5cf">
+<p>
+<a id="org0ccd29b"></a>
+The <i>successor measure</i> (SM) is a term that I believe was coined by
+Leonard Blier, Corentin Tallec, and Yann Olivier in an <a href="https://arxiv.org/abs/2101.07123">excellent
+manuscript</a> from 2021, which generalizes the successor representation
+to measurable state spaces. For an MDP with transition kernel \(P\) and
+a policy \(\pi\), the
+successor measures is a measure on the state space conditioned on a
+source state and action, defined as
+</p>
+
+\begin{align*}
+M^\pi(\cdot\mid x, a) = \sum_{t\geq 0}\gamma^t\Pr_\pi(X_t\in\cdot\mid X_0 = x,\ A_0 = a)
+\end{align*}
+
+<p>
+where \(\Pr_\pi\) is the probability measure over trajectories where
+\(A_t\sim\pi(\cdot X_t)\) and \(X_{t+1}\sim \int P(\cdot\mid x,
+a)\pi(\mathrm{d}a\mid x)\). Notably, it is readily verified
+that \(M^\pi(\mathcal{X}\mid x, a) = (1-\gamma)^{-1}\), so \(M^\pi\) is a
+finite measure for any source state-action pair. As such, it acts as a
+linear operator on the space of bounded measurable functions in the
+usual way,
+</p>
+
+\begin{align*}
+(M^\pi f)(x, a) = \int_{\mathcal{X}}f(x')M^\pi(\mathrm{d}x'\mid x, a).
+\end{align*}
+
+<p>
+But most notably, this linear operation has a most meaningful
+interpretation in RL. Famously, it maps reward functions to
+action-value functions,
+</p>
+
+\begin{align*}
+M^\pi r = Q^\pi
+\end{align*}
+
+<p>
+for any bounded and measurable reward function \(r\), so the successor
+measure can be used as a device to infer the action-value function for
+just about any reward function.
+</p>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: root</p>
+<p class="author">Author: Harley Wiltzer</p>
 <p class="date">Created: 2024-01-04 Thu 22:04</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
