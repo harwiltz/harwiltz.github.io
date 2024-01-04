@@ -51,8 +51,8 @@ prior, and then train $\bar{M}^r$ with a TD update (see
 e.g. [[https://arxiv.org/pdf/2101.07123.pdf][algorithms for learning fixed-policy SMs]]) by using the greedy
 action with respect to $\bar{M}^rr$ in the bootstrap target. This
 does literally amount to learning a reward-function-conditioned SM
-with a greedy bootstrap target. Also, this is, roughly, exactly what
-the FB algorithm is doing.
+with a greedy bootstrap target. Also, this is roughly what
+the FB algorithm is doing in principle.
 
 *** The Missing Piece: Task Embeddings
 So why not stop there? To my understanding, the problem is that
@@ -83,7 +83,7 @@ characterized by
 
 where $z := \int_{\mathcal{X}}r(x')B(\mathrm{d}x')\in\mathbf{R}^d$. But now,
 the greedy action depends only on $z$! Consequently, we can index
-optimal policies and the $\bar{F}$ factor by the "reward
+optimal policies and the $\bar{F}$ factor by the "task
 embeddings" $z\in\mathbf{R}^d$. This looks like the following:
 
 \begin{align*}
@@ -95,11 +95,23 @@ F^z(x, a)^\top B(\cdot) = M^{\pi_z}(\cdot\mid x, a)
 \end{align*}
 
 Notably, we now can easily represent $F, B$ with function
-approximators. The paper shows some conditions on when such a
+approximators (their inputs are now all finite-dimensional objects).
+The paper shows some conditions on when such a
 factorization exists (and provides error bounds in the case where the
 factorization is only approximate). But the important lesson here, at
 least to me, is that FB innovates by compressing the space of reward
 functions in a clever way.
+
+Now, given a learned FB representation and an arbitrary reward
+function $r$:
+
+1. Infer the task embedding $z = \int_{\mathcal{X}}
+   r(x')B(\mathrm{d}x')$. While this is still an intractable integral,
+   we can approximate it by sampling. Or when $r$ is the indicator for
+   a given state $x^\star$ (like in goal-conditioned RL), $z =
+   B(\mathrm{d}x')$.
+2. Exectute the policy $\pi_z(x)\in\arg\max_aF^z(x, a)^\top z$.
+3. Profit.
 
 ** The Successor Measure
 <<successor measure>>
