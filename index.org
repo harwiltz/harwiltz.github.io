@@ -20,6 +20,13 @@
 
 ** Research
 #+BEGIN_research-list
+1. /[[https://deepmind.google/research/publications/44717/][A
+   Distributional Analogue to the Successor Representation]]/. @@html:
+   <br>@@
+   *Harley Wiltzer**, Jesse Farebrother*, Arthur Gretton, Yunhao Tang,
+   Andre Barreto, Will Dabney, Marc G. Bellemare, Mark Rowland @@html:
+   <br>@@
+   Preprint, 2024
 1. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
    Neighborhood: On Return Landscapes in Continuous
    Control]]/. @@html: <br>@@
