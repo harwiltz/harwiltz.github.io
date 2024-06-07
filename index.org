@@ -27,6 +27,7 @@
    Andre Barreto, Will Dabney, Marc G. Bellemare, Mark Rowland @@html:
    <br>@@
    To appear in International Conference on Machine Learning, 2024
+   @@html:<span class="spotlight">@@ Spotlight (top 3.5%)@@html:</span>@@
 1. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
    Neighborhood: On Return Landscapes in Continuous
    Control]]/. @@html: <br>@@
