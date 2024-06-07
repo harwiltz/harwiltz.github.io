@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-05-02 Thu 22:01 -->
+<!-- 2024-06-07 Fri 21:38 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Open Source Accelerated Deep Learning</title>
@@ -198,7 +198,7 @@
 </head>
 <body>
 <div id="content" class="content">
-<div class="header-navbar" id="org540b3b4">
+<div class="header-navbar" id="org7f870fc">
 <ul class="org-ul">
 <li><a href="../.././index.html">Home</a></li>
 <li><a href="../.././about">About</a></li>
@@ -207,9 +207,9 @@
 
 </div>
 
-<div id="outline-container-org3cddafb" class="outline-2">
-<h2 id="org3cddafb">Open Source Accelerated Deep Learning</h2>
-<div class="outline-text-2" id="text-org3cddafb">
+<div id="outline-container-org8093f50" class="outline-2">
+<h2 id="org8093f50">Open Source Accelerated Deep Learning</h2>
+<div class="outline-text-2" id="text-org8093f50">
 <p>
 <i>Harley Wiltzer, December 2020</i>
 </p>
@@ -244,9 +244,9 @@ determined to set it up on my PC.
 </p>
 </div>
 
-<div id="outline-container-org360ae2b" class="outline-3">
-<h3 id="org360ae2b">Building from Source, and a Rant About Package Managers</h3>
-<div class="outline-text-3" id="text-org360ae2b">
+<div id="outline-container-org659e684" class="outline-3">
+<h3 id="org659e684">Building from Source, and a Rant About Package Managers</h3>
+<div class="outline-text-3" id="text-org659e684">
 <p>
 Installing ROCm is&#x2026; challenging. I don't mean to blame the
 developers, ROCm is an extremely complex project with many, many
@@ -264,9 +264,9 @@ repository. This is disgusting.
 </p>
 </div>
 
-<div id="outline-container-org720e123" class="outline-4">
-<h4 id="org720e123">The Rant about Package Managers</h4>
-<div class="outline-text-4" id="text-org720e123">
+<div id="outline-container-org1483320" class="outline-4">
+<h4 id="org1483320">The Rant about Package Managers</h4>
+<div class="outline-text-4" id="text-org1483320">
 <p>
 Some years ago, I was pointed to <a href="http://michael.orlitzky.com/articles/motherfuckers_need_package_management.xhtml">this wonderful blog post</a> (please
 excuse the profanity) by Michael Orlitzky. While it is blatantly
@@ -311,9 +311,9 @@ cemented this idea further.
 </div>
 </div>
 
-<div id="outline-container-orge07447e" class="outline-4">
-<h4 id="orge07447e">The Need to Build from Source</h4>
-<div class="outline-text-4" id="text-orge07447e">
+<div id="outline-container-org9a35266" class="outline-4">
+<h4 id="org9a35266">The Need to Build from Source</h4>
+<div class="outline-text-4" id="text-org9a35266">
 <p>
 So in the previous section, I mentioned how the ability for a package
 manager to build software from source is very desirable. Until I
@@ -353,9 +353,9 @@ one.
 </p>
 </div>
 </div>
-<div id="outline-container-orgca5760d" class="outline-4">
-<h4 id="orgca5760d">Install Gentoo</h4>
-<div class="outline-text-4" id="text-orgca5760d">
+<div id="outline-container-org48babbb" class="outline-4">
+<h4 id="org48babbb">Install Gentoo</h4>
+<div class="outline-text-4" id="text-org48babbb">
 <p>
 So what's the solution to this problem? Michael Orlitzky suggests that
 all software developers should distribute software as <i>ebuilds</i>, which
@@ -401,9 +401,9 @@ package manager that can suit all of your needs.
 </div>
 
 
-<div id="outline-container-org7635497" class="outline-3">
-<h3 id="org7635497">Installing ROCm with Portage</h3>
-<div class="outline-text-3" id="text-org7635497">
+<div id="outline-container-org3615257" class="outline-3">
+<h3 id="org3615257">Installing ROCm with Portage</h3>
+<div class="outline-text-3" id="text-org3615257">
 <p>
 Over the past little while, I've been tweaking ebuilds so I can get a
 working build of ROCm. This job was made much easier than it could've
@@ -433,9 +433,9 @@ but these tasks just become routine as you get used to Portage. I'll
 outline the steps explicitly.
 </p>
 </div>
-<div id="outline-container-org75c8cc6" class="outline-4">
-<h4 id="org75c8cc6">1. Set up an overlay</h4>
-<div class="outline-text-4" id="text-org75c8cc6">
+<div id="outline-container-org67d4bdd" class="outline-4">
+<h4 id="org67d4bdd">1. Set up an overlay</h4>
+<div class="outline-text-4" id="text-org67d4bdd">
 <p>
 In order for Portage to "register" a third party set of packages (or
 ebuilds, more precisely), you'll need to set up an <i>overlay</i>. Gentoo
@@ -471,9 +471,9 @@ Now the overlay is ready to go.
 </p>
 </div>
 </div>
-<div id="outline-container-org18db571" class="outline-4">
-<h4 id="org18db571">2. Configure Portage</h4>
-<div class="outline-text-4" id="text-org18db571">
+<div id="outline-container-orgfe19f05" class="outline-4">
+<h4 id="orgfe19f05">2. Configure Portage</h4>
+<div class="outline-text-4" id="text-orgfe19f05">
 <p>
 I guess this part is optional if you declare the environment variables
 manually when installing <code>amd-rocm-meta</code>. But I think this is a nicer
@@ -565,9 +565,9 @@ Now we're ready to start the build!
 </div>
 </div>
 
-<div id="outline-container-org20e5926" class="outline-4">
-<h4 id="org20e5926">3. Building ROCm</h4>
-<div class="outline-text-4" id="text-org20e5926">
+<div id="outline-container-org751db31" class="outline-4">
+<h4 id="org751db31">3. Building ROCm</h4>
+<div class="outline-text-4" id="text-org751db31">
 <p>
 We can now run the command I foreshadowed earlier,
 </p>
@@ -585,9 +585,9 @@ far.
 </p>
 </div>
 
-<div id="outline-container-org7857061" class="outline-5">
-<h5 id="org7857061">Potential build issues</h5>
-<div class="outline-text-5" id="text-org7857061">
+<div id="outline-container-org8e901c1" class="outline-5">
+<h5 id="org8e901c1">Potential build issues</h5>
+<div class="outline-text-5" id="text-org8e901c1">
 <p>
 Given the complexity of this system and the intensity of some of the
 builds, the build of <code>amd-rocm-meta</code> might not succeed all the way
@@ -636,9 +636,9 @@ more processes.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb3fcf2f" class="outline-4">
-<h4 id="orgb3fcf2f">4. Testing the ROCm setup</h4>
-<div class="outline-text-4" id="text-orgb3fcf2f">
+<div id="outline-container-org61236a0" class="outline-4">
+<h4 id="org61236a0">4. Testing the ROCm setup</h4>
+<div class="outline-text-4" id="text-org61236a0">
 <p>
 As a quick sanity check, execute the following,
 </p>
@@ -662,9 +662,9 @@ lists correct information about your GPU.
 </div>
 </div>
 
-<div id="outline-container-org91cc0ee" class="outline-3">
-<h3 id="org91cc0ee">Installing Deep Learning Libraries</h3>
-<div class="outline-text-3" id="text-org91cc0ee">
+<div id="outline-container-orgd8e643f" class="outline-3">
+<h3 id="orgd8e643f">Installing Deep Learning Libraries</h3>
+<div class="outline-text-3" id="text-orgd8e643f">
 <p>
 Assuming everyting above was successful, you should be able to install
 Tensorflow or PyTorch. I'll go over the PyTorch install since that's
@@ -757,7 +757,7 @@ flipping off NVidia</a>.</i>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Harley Wiltzer</p>
-<p class="date">Created: 2024-05-02 Thu 22:01</p>
+<p class="date">Created: 2024-06-07 Fri 21:38</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

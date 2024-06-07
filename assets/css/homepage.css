@@ -20,3 +20,10 @@
     list-style-type: lower-greek;
     padding: 0;
 }
+
+.spotlight {
+    color: black;
+    background-color: deepskyblue;
+    border-radius: 4px;
+    padding: 4px;
+}
