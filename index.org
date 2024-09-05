@@ -20,13 +20,18 @@
 
 ** Research
 #+BEGIN_research-list
+1. /[[https://arxiv.org/abs/2409.00328][Foundations of Multivariate Distributional Reinforcement Learning]]/. @@html:
+   <br>@@
+   *Harley Wiltzer*, Jesse Farebrother, Arthur Gretton, Mark Rowland @@html:
+   <br>@@
+   Preprint, 2024
 1. /[[https://deepmind.google/research/publications/44717/][A
    Distributional Analogue to the Successor Representation]]/. @@html:
    <br>@@
    *Harley Wiltzer**, Jesse Farebrother*, Arthur Gretton, Yunhao Tang,
    Andre Barreto, Will Dabney, Marc G. Bellemare, Mark Rowland @@html:
    <br>@@
-   To appear in International Conference on Machine Learning, 2024
+   International Conference on Machine Learning, 2024
    @@html:<span class="spotlight">@@ Spotlight (top 3.5%)@@html:</span>@@
 1. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
    Neighborhood: On Return Landscapes in Continuous
