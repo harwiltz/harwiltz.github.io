@@ -7,11 +7,10 @@
 #+ATTR_HTML: :id me-photo
 [[./assets/img/me.jpg]]
 
-I am a third year PhD student at the
-[[https://www.cim.mcgill.ca/~mrl][Mobile Robotics Lab]] at McGill
-University and [[https://www.mila.quebec][Mila]] in Montreal, Canada. I
-am fortunately supervised by [[https://www.cim.mcgill.ca/~dmeger][David
-Meger]] and [[http://www.marcgbellemare.info/][Marc G. Bellemare]].
+I am a PhD student at
+[[https://mcgill.ca][McGill University]] and [[https://www.mila.quebec][Mila]] in Montreal, Canada. I
+am fortunately supervised by [[http://marcgbellemare.info][Marc G. Bellemare]] and [[https://www.cim.mcgill.ca/~dmeger][David
+Meger]].
 
 My research interests are primarily concerned with reinforcement
 learning, and particularly with methods of modeling uncertainty to
