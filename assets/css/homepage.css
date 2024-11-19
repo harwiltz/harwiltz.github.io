@@ -21,9 +21,26 @@
     padding: 0;
 }
 
+.research-list ol p {
+    margin: 0;
+}
+
+.research-list li {
+    padding-bottom: 0.5em;
+}
+
 .spotlight {
     color: black;
     background-color: gold;
     border-radius: 4px;
     padding: 4px;
+}
+
+.paperlinks {
+    font-size: 75%;
+}
+
+.paperlinks a {
+    font-family: 'Courier New', monospace;
+    color: indigo;
 }

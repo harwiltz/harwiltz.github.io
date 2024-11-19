@@ -14,26 +14,43 @@
 - PhD Student, McGill University & Mila
 - @@html:<icon class="fa-solid fa-envelope-open"></icon>@@ =harley.wiltzer@mail.mcgill.ca=
 - @@html:<icon class="fa-brands fa-github"></icon>@@ [[https://github.com/harwiltz][harwiltz]]
-- @@html:<icon class="fa-solid fa-pen-nib"></icon>@@ [[./assets/AcademicCV.pdf][CV]] (last updated July 2024)
+- @@html:<icon class="fa-solid fa-pen-nib"></icon>@@ [[./assets/AcademicCV.pdf][CV]] (last updated November 2024)
 #+END_coordinates
 
 ** Research
 #+BEGIN_research-list
-1. /[[https://arxiv.org/abs/2410.11022][Action Gaps and Advantages in Continuous-Time Distributional Reinforcement
+1. [[https://arnavkj1995.github.io/SFM][Non-Adversarial Inverse Reinforcement Learning via Successor Feature
+   Matching]]. @@html:<br/>@@
+   Arnav Kumar Jain, *Harley Wiltzer*, Jesse Farebrother, Irina Rish, Glen
+   Berseth, Sanjiban Choudhury @@html:<br/>@@
+   Preprint, 2024
+   #+BEGIN_paperlinks
+   [[https://arxiv.org/pdf/2411.07007][pdf]] / [[https://github.com/arnavkj1995/SFM][code]]
+   #+END_paperlinks
+2. /[[https://arxiv.org/abs/2410.11022][Action Gaps and Advantages in Continuous-Time Distributional Reinforcement
    Learning]]/. @@html:<br/>@@
    *Harley Wiltzer**, Marc G. Bellemare, David Meger, Patrick Shafto, Yash
    Jhaveri* @@html:<br/>@@
    To appear at Neural Information Processing Systems (NeurIPS), 2024
-2. /[[https://arxiv.org/abs/2409.00328][Foundations of Multivariate Distributional Reinforcement Learning]]/. @@html:
+   #+BEGIN_paperlinks
+   [[https://arxiv.org/pdf/2410.11022][pdf]] / [[https://github.com/harwiltz/distributional-superiority][code]] / [[https://cs.mcgill.ca/~hwiltz/dsup-presentation][slides]]
+   #+END_paperlinks
+3. /[[https://arxiv.org/abs/2409.00328][Foundations of Multivariate Distributional Reinforcement Learning]]/. @@html:
    <br/>@@
    *Harley Wiltzer*, Jesse Farebrother, Arthur Gretton, Mark Rowland @@html:
    <br/>@@
    To appear at Neural Information Processing Systems (NeurIPS), 2024
-3. /[[https://openreview.net/pdf?id=hAH6ZBLOAB][Simplifying Constraint Inference with Inverse Reinforcement Learning]]/.
+   #+BEGIN_paperlinks
+   [[https://arxiv.org/pdf/2409.00328][pdf]] / [[https://cs.mcgill.ca/~hwiltz/mvdrl-neurips][slides]]
+   #+END_paperlinks
+4. /[[https://openreview.net/pdf?id=hAH6ZBLOAB][Simplifying Constraint Inference with Inverse Reinforcement Learning]]/.
    @@html:<br/>@@
    Adriana Hugessen, *Harley Wiltzer*, Glen Berseth @@html:<br/>@@
    To appear at Neural Information Processing Systems (NeurIPS), 2024
-4. /[[https://deepmind.google/research/publications/44717/][A
+   #+BEGIN_paperlinks
+   [[https://openreview.net/pdf?id=T5Cerv7PT2][pdf]] / [[https://github.com/ahugs/simple-icrl][code]]
+   #+END_paperlinks
+5. /[[https://deepmind.google/research/publications/44717/][A
    Distributional Analogue to the Successor Representation]]/. @@html:
    <br/>@@
    *Harley Wiltzer**, Jesse Farebrother*, Arthur Gretton, Yunhao Tang,
@@ -41,26 +58,33 @@
    <br/>@@
    International Conference on Machine Learning (ICML), 2024
    @@html:<span class="spotlight">@@ Spotlight (top 3.5%)@@html:</span>@@
-5. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
+   #+BEGIN_paperlinks
+   [[https://arxiv.org/pdf/2402.08530.pdf][pdf]] / [[https://github.com/JesseFarebro/distributional-sr][code]] / [[https://cs.mcgill.ca/~hwiltz/dsm-presentation][slides]]
+   #+END_paperlinks
+6. /[[https://arxiv.org/abs/2309.14597][Policy Optimization in a Noisy
    Neighborhood: On Return Landscapes in Continuous
    Control]]/. @@html: <br/>@@
    Nate Rahn*, Pierluca D'Oro*, *Harley Wiltzer*, Pierre-Luc Bacon,
    Marc G. Bellemare @@html: <br/>@@
    Neural Information Processing Systems (NeurIPS), 2023
-6. /[[https://arxiv.org/abs/2205.12184][Distributional Hamilton-Jacobi-Bellman Equations for
+   #+BEGIN_paperlinks
+   [[https://arxiv.org/pdf/2309.14597][pdf]] / [[https://github.com/nathanrahn/return-landscapes][code]]
+   #+END_paperlinks
+7. /[[https://arxiv.org/abs/2205.12184][Distributional Hamilton-Jacobi-Bellman Equations for
    Continuous-Time Reinforcement Learning]]/. @@html: <br/>@@
    *Harley Wiltzer*, David Meger, Marc G. Bellemare @@html: <br/>@@
    International Conference on Machine Learning (ICML), 2022
-7. [[./assets/thesis-msc.pdf][On the Evolution of Return Distributions in Continuous-Time
+   @@html:<span class="spotlight">@@ Spotlight @@html:</span>@@
+8. [[./assets/thesis-msc.pdf][On the Evolution of Return Distributions in Continuous-Time
    Reinforcement Learning]]. @@html: <br/>@@
    M.Sc. Thesis.
 #+END_research-list
 
 ** Talks
 #+BEGIN_research-list
-1. [[https://bluejeans.com/s/bSa8N0a2wkS][Distributional Hamilton-Jacobi-Bellman Equations for
+1. [[https://www.youtube.com/watch?v=2Cc-2xT2-3k][Distributional Hamilton-Jacobi-Bellman Equations for
    Continuous-Time Reinforcement Learning]]. @@html: <br/>@@
-   RL Sofa at Mila.
+   [[https://sites.google.com/view/rltheoryseminars/upper-bound-workshop?authuser=0][Theory of Reinforcement Learning Workshop]], University of Alberta
 #+END_research-list
 
 ** Rants

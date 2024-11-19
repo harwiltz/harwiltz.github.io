@@ -9,6 +9,7 @@
 (defun publish-site(dir &optional force)
   (load-theme 'tsdh-light)
   (let ((org-confirm-babel-evaluate nil)
+		(org-html-validation-link nil)
 	(org-project-root default-directory)
 	(org-html-htmlize-font-prefix "org-")
 	(image-file-name-extensions (cons "webm" image-file-name-extensions))
