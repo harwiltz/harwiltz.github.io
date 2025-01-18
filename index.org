@@ -19,8 +19,8 @@
 
 ** Research
 #+BEGIN_research-list
-1. [[https://arnavkj1995.github.io/SFM][Non-Adversarial Inverse Reinforcement Learning via Successor Feature
-   Matching]]. @@html:<br/>@@
+1. /[[https://arnavkj1995.github.io/SFM][Non-Adversarial Inverse Reinforcement Learning via Successor Feature
+   Matching]]/. @@html:<br/>@@
    Arnav Kumar Jain, *Harley Wiltzer*, Jesse Farebrother, Irina Rish, Glen
    Berseth, Sanjiban Choudhury @@html:<br/>@@
    Preprint, 2024
