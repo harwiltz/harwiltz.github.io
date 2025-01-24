@@ -23,7 +23,7 @@
    Matching]]/. @@html:<br/>@@
    Arnav Kumar Jain, *Harley Wiltzer*, Jesse Farebrother, Irina Rish, Glen
    Berseth, Sanjiban Choudhury @@html:<br/>@@
-   Preprint, 2024
+   To appear at the International Conference on Learning Representations (ICLR), 2025
    #+BEGIN_paperlinks
    [[https://arxiv.org/pdf/2411.07007][pdf]] / [[https://github.com/arnavkj1995/SFM][code]]
    #+END_paperlinks
@@ -31,7 +31,7 @@
    Learning]]/. @@html:<br/>@@
    *Harley Wiltzer**, Marc G. Bellemare, David Meger, Patrick Shafto, Yash
    Jhaveri* @@html:<br/>@@
-   To appear at Neural Information Processing Systems (NeurIPS), 2024
+   Neural Information Processing Systems (NeurIPS), 2024
    #+BEGIN_paperlinks
    [[https://arxiv.org/pdf/2410.11022][pdf]] / [[https://github.com/harwiltz/distributional-superiority][code]] / [[https://cs.mcgill.ca/~hwiltz/dsup-presentation][slides]]
    #+END_paperlinks
@@ -39,14 +39,14 @@
    <br/>@@
    *Harley Wiltzer*, Jesse Farebrother, Arthur Gretton, Mark Rowland @@html:
    <br/>@@
-   To appear at Neural Information Processing Systems (NeurIPS), 2024
+   Neural Information Processing Systems (NeurIPS), 2024
    #+BEGIN_paperlinks
    [[https://arxiv.org/pdf/2409.00328][pdf]] / [[https://cs.mcgill.ca/~hwiltz/mvdrl-neurips][slides]]
    #+END_paperlinks
 4. /[[https://openreview.net/pdf?id=hAH6ZBLOAB][Simplifying Constraint Inference with Inverse Reinforcement Learning]]/.
    @@html:<br/>@@
    Adriana Hugessen, *Harley Wiltzer*, Glen Berseth @@html:<br/>@@
-   To appear at Neural Information Processing Systems (NeurIPS), 2024
+   Neural Information Processing Systems (NeurIPS), 2024
    #+BEGIN_paperlinks
    [[https://openreview.net/pdf?id=T5Cerv7PT2][pdf]] / [[https://github.com/ahugs/simple-icrl][code]]
    #+END_paperlinks
