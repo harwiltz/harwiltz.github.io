@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-24 Fri 18:56 -->
+<!-- 2025-10-08 Wed 14:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ILQR Without Obfuscation</title>
 <meta name="author" content="Harley Wiltzer" />
 <meta name="generator" content="Org Mode" />
-<style>
+<style type="text/css">
   #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
@@ -230,7 +230,7 @@
 </head>
 <body>
 <div id="content" class="content">
-<div class="header-navbar" id="org735f55b">
+<div class="header-navbar" id="org281e8a4">
 <ul class="org-ul">
 <li><a href="../.././index.html">Home</a></li>
 <li><a href="../.././about">About</a></li>
@@ -238,10 +238,9 @@
 <hr />
 
 </div>
-
-<div id="outline-container-org864a7cf" class="outline-2">
-<h2 id="org864a7cf">iLQR Without Obfuscation</h2>
-<div class="outline-text-2" id="text-org864a7cf">
+<div id="outline-container-org201e07e" class="outline-2">
+<h2 id="org201e07e">iLQR Without Obfuscation</h2>
+<div class="outline-text-2" id="text-org201e07e">
 <p>
 <i>Harley Wiltzer, February 2020</i>
 </p>
@@ -275,7 +274,6 @@ make any connection to LQR at all.
 </p>
 </div>
 </div>
-
 <div id="outline-container-an-overview-of-ilqr" class="outline-3">
 <h3 id="an-overview-of-ilqr">An Overview of iLQR</h3>
 <div class="outline-text-3" id="text-an-overview-of-ilqr">
@@ -324,7 +322,6 @@ forward pass applies the updates and computes a new trajectory.
 </p>
 </div>
 </div>
-
 <div id="outline-container-the-math" class="outline-3">
 <h3 id="the-math">The Math</h3>
 <div class="outline-text-3" id="text-the-math">
@@ -372,7 +369,6 @@ approximation.
 </p>
 </div>
 </div>
-
 <div id="outline-container-putting-the-optimization-in-trajectory-optimization" class="outline-4">
 <h4 id="putting-the-optimization-in-trajectory-optimization">Putting the "Optimization" in Trajectory Optimization</h4>
 <div class="outline-text-4" id="text-putting-the-optimization-in-trajectory-optimization">
@@ -598,7 +594,6 @@ pseudocode above.
 </div>
 </div>
 </div>
-
 <div id="outline-container-generating-rollouts" class="outline-3">
 <h3 id="generating-rollouts">Generating Rollouts</h3>
 <div class="outline-text-3" id="text-generating-rollouts">
@@ -663,7 +658,6 @@ you make Spot as good as this.
 </p>
 </div>
 </div>
-
 <div id="outline-container-implementation-details-and-tricks" class="outline-3">
 <h3 id="implementation-details-and-tricks">Implementation Details and Tricks</h3>
 <div class="outline-text-3" id="text-implementation-details-and-tricks">
@@ -675,7 +669,6 @@ helpful to yield successful controllers. Read on to learn more about
 this.
 </p>
 </div>
-
 <div id="outline-container-the-initial-trajectory" class="outline-4">
 <h4 id="the-initial-trajectory">The Initial Trajectory</h4>
 <div class="outline-text-4" id="text-the-initial-trajectory">
@@ -712,7 +705,6 @@ Playing with various initialization schemas would be wise.
 </p>
 </div>
 </div>
-
 <div id="outline-container-gradient-clipping" class="outline-4">
 <h4 id="gradient-clipping">Gradient Clipping</h4>
 <div class="outline-text-4" id="text-gradient-clipping">
@@ -770,7 +762,6 @@ sufficient enough for my purposes.
 </p>
 </div>
 </div>
-
 <div id="outline-container-scaling-cost-function-weights" class="outline-4">
 <h4 id="scaling-cost-function-weights">Scaling Cost Function Weights</h4>
 <div class="outline-text-4" id="text-scaling-cost-function-weights">
@@ -807,7 +798,6 @@ Q = \begin{pmatrix}r_1^{-1} & 0 & \dots & 0\\0 & r_2^{-1} & \dots & 0\\0 & 0 &
 \end{align*}
 </div>
 </div>
-
 <div id="outline-container-computing-jacobians-the-lazy-way" class="outline-4">
 <h4 id="computing-jacobians-the-lazy-way">Computing Jacobians the Lazy Way</h4>
 <div class="outline-text-4" id="text-computing-jacobians-the-lazy-way">
@@ -868,7 +858,6 @@ function \(f:\mathbf{R}^n\times
 </div>
 </div>
 </div>
-
 <div id="outline-container-references" class="outline-3">
 <h3 id="references">References</h3>
 <div class="outline-text-3" id="text-references">
@@ -887,7 +876,7 @@ DeWolf &#x2013; The Iterative Linear Quadratic Regulator Algorithm</a></li>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Harley Wiltzer</p>
-<p class="date">Created: 2025-01-24 Fri 18:56</p>
+<p class="date">Created: 2025-10-08 Wed 14:05</p>
 </div>
 </body>
 </html>
