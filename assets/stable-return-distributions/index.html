@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stable Return Distributions</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import for a cleaner look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Custom styling for the video element container */
+        .video-container {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 5px 15px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Player Card Container -->
+    <div class="video-container bg-white rounded-xl max-w-4xl w-full p-6 sm:p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Stabilizing the Distributional Optimality Operator with Entropy Regularization</h1>
+        <p class="text-center text-sm text-gray-500 mb-6">Full iterate sequence that generated Figure 4.1.</p>
+
+        <!-- Video Element -->
+        <video 
+            id="myVideoPlayer"
+            class="w-full rounded-lg border-2 border-gray-100"
+            controls 
+            autoplay 
+            loop 
+            muted
+        >
+            <!-- Source for the MP4 video. Ensure your video.mp4 file is in the same directory! -->
+            <source src="distributional-dp-iterates.mp4" type="video/mp4">
+            
+            <!-- Fallback text for browsers that don't support the video tag -->
+            Your browser does not support the video tag. Please update to a modern browser.
+        </video>
+
+        <!-- Player Information -->
+        <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+                <span>Controls enabled.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

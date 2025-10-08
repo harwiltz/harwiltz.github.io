@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-08 Wed 14:10 -->
+<!-- 2025-10-08 Wed 14:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Zero-Shot RL with the Forward-Backward Representation, Inside Out</title>
@@ -230,7 +230,7 @@
 </head>
 <body>
 <div id="content" class="content">
-<div class="header-navbar" id="orgec71545">
+<div class="header-navbar" id="org8fc2a13">
 <ul class="org-ul">
 <li><a href="../.././index.html">Home</a></li>
 <li><a href="../.././about">About</a></li>
@@ -238,9 +238,9 @@
 <hr />
 
 </div>
-<div id="outline-container-org570ec54" class="outline-2">
-<h2 id="org570ec54">Zero-Shot RL with the Forward-Backward Representation, Inside Out</h2>
-<div class="outline-text-2" id="text-org570ec54">
+<div id="outline-container-orgec99150" class="outline-2">
+<h2 id="orgec99150">Zero-Shot RL with the Forward-Backward Representation, Inside Out</h2>
+<div class="outline-text-2" id="text-orgec99150">
 <p>
 In 2021, shortly after I started graduate school, Ahmed Touati and
 Yann Ollivier published <a href="https://arxiv.org/abs/2103.07945">Learning One Representation to Optimize All
@@ -261,13 +261,13 @@ exposition in the paper), which led to some nice intuitions and
 insights, which I will document here.
 </p>
 </div>
-<div id="outline-container-org8a51818" class="outline-3">
-<h3 id="org8a51818">The Inside Out Derivation</h3>
-<div class="outline-text-3" id="text-org8a51818">
+<div id="outline-container-org98e9f98" class="outline-3">
+<h3 id="org98e9f98">The Inside Out Derivation</h3>
+<div class="outline-text-3" id="text-org98e9f98">
 <p>
 One way to achieve zero-shot transfer in RL &#x2013; that is, immediately
 inferring an optimal policy in an arbitrary (but Markovian) task &#x2013; is
-by modeling the successor measure (SM, defined <a href="#org27de33f">below</a> for completeness)
+by modeling the successor measure (SM, defined <a href="#org24d64ab">below</a> for completeness)
 for each optimal policy. Before
 FB, it was not clear how to do this, but in an ideal world where this
 could be done, we can imagine modeling this object as \(M^{\pi^\star_r}(\cdot\mid
@@ -303,9 +303,9 @@ with a greedy bootstrap target. Also, this is roughly what
 the FB algorithm is doing in principle.
 </p>
 </div>
-<div id="outline-container-org7fdd30a" class="outline-4">
-<h4 id="org7fdd30a">The Missing Piece: Task Embeddings</h4>
-<div class="outline-text-4" id="text-org7fdd30a">
+<div id="outline-container-org8d24575" class="outline-4">
+<h4 id="org8d24575">The Missing Piece: Task Embeddings</h4>
+<div class="outline-text-4" id="text-org8d24575">
 <p>
 So why not stop there? To my understanding, the problem is that
 conditioning a function approximator on a <i>reward function</i> is
@@ -376,11 +376,11 @@ a given state \(x^\star\) (like in goal-conditioned RL), \(z =
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf5b4f7" class="outline-3">
-<h3 id="orgaf5b4f7">The Successor Measure</h3>
-<div class="outline-text-3" id="text-orgaf5b4f7">
+<div id="outline-container-orgcbbad46" class="outline-3">
+<h3 id="orgcbbad46">The Successor Measure</h3>
+<div class="outline-text-3" id="text-orgcbbad46">
 <p>
-<a id="org27de33f"></a>
+<a id="org24d64ab"></a>
 The <i>successor measure</i> (SM) is a term that I believe was coined by
 Leonard Blier, Corentin Tallec, and Yann Olivier in an <a href="https://arxiv.org/abs/2101.07123">excellent
 manuscript</a> from 2021, which generalizes the successor representation
@@ -429,7 +429,7 @@ just about any reward function.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Harley Wiltzer</p>
-<p class="date">Created: 2025-10-08 Wed 14:10</p>
+<p class="date">Created: 2025-10-08 Wed 14:27</p>
 </div>
 </body>
 </html>
