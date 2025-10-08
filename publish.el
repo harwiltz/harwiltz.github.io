@@ -24,7 +24,7 @@
 	    :auto-preamble t)
 	   ("org-static"
 	    :base-directory "./assets"
-	    :base-extension "css\\|js\\|jpg\\|png\\|pdf\\|gif\\|webm\\|mp4\\|webp"
+	    :base-extension "css\\|js\\|jpg\\|png\\|pdf\\|gif\\|webm\\|mp4\\|webp\\|html"
 	    :publishing-directory ,(concat dir "/assets")
 	    :recursive t
 	    :publishing-function org-publish-attachment)
