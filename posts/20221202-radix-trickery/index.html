@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-11-20 Thu 14:50 -->
+<!-- 2025-11-20 Thu 14:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Radix Trickery</title>
@@ -230,7 +230,7 @@
 </head>
 <body>
 <div id="content" class="content">
-<div class="header-navbar" id="orgf95facf">
+<div class="header-navbar" id="orgb4d540a">
 <ul class="org-ul">
 <li><a href="../.././index.html">Home</a></li>
 <li><a href="../.././about">About</a></li>
@@ -238,9 +238,9 @@
 <hr />
 
 </div>
-<div id="outline-container-org5ad9aab" class="outline-2">
-<h2 id="org5ad9aab">Radix Trickery</h2>
-<div class="outline-text-2" id="text-org5ad9aab">
+<div id="outline-container-org9c9ec34" class="outline-2">
+<h2 id="org9c9ec34">Radix Trickery</h2>
+<div class="outline-text-2" id="text-org9c9ec34">
 <p>
 <i>Harley Wiltzer, December 2022</i>
 </p>
@@ -307,9 +307,9 @@ We will also maintain the assumption that all radixes of
 interest are small, that is, they themselves are comprised of \(O(1)\) digits.
 </p>
 </div>
-<div id="outline-container-orgd50cb79" class="outline-3">
-<h3 id="orgd50cb79">Divisibility Tricks</h3>
-<div class="outline-text-3" id="text-orgd50cb79">
+<div id="outline-container-org50fd278" class="outline-3">
+<h3 id="org50fd278">Divisibility Tricks</h3>
+<div class="outline-text-3" id="text-org50fd278">
 <p>
 Suppose we want to check if some integer \(x\) is divisible by a natural
 number \(a\). We'll assume that \(x\) is \(N\) digits long, and \(a\) has
@@ -323,7 +323,7 @@ many factors, we should expect to determine divisibility in constant
 time for a larger set of divisors.
 </p>
 
-<div class="proposition" id="org7ecca5c">
+<div class="proposition" id="org6b4ed23">
 <p>
 Let \([x]_b = (x_k)\) be given, and suppose \(a\) divides \(b\). Then it only takes
 \(O(1)\) time to decide if \(a\) divides \([x]_b\). In particular, \(a\)
@@ -332,7 +332,7 @@ divides \([x]_b\) if and only if \(a\) divides \(x_0\).
 
 </div>
 
-<div class="proof" id="org2f47fad">
+<div class="proof" id="orgebc70e4">
 <p>
 Note that \([x]_b = b(x_{k+1}) + x_0 = an + x_0\) for some
 natural number \(n\), since \(a\) divides \(b\). Then clearly if \(a\) divides \(x_0\), we have \([x]_b
@@ -361,7 +361,7 @@ instance, we can check if it's divisible by any of \(\{1,2,3,4,6,12\}\)
 just by checking the last 12-git. We can actually extend this a little bit further.
 </p>
 
-<div class="proposition" id="org98d481b">
+<div class="proposition" id="org3200afa">
 <p>
 Let \([x]_b = (x_k)\) be given, and suppose \(a\) divides \(b^n\)
 for some natural number \(n\geq 1\). Then \(a\) divides \([x]_b\) if and
@@ -371,7 +371,7 @@ significant \(b\)-gits of \([x]_b\)).
 
 </div>
 
-<div class="proof" id="org841a94e">
+<div class="proof" id="orgd8f5511">
 <p>
 Similarly to the last proposition, we can write
 </p>
@@ -407,7 +407,7 @@ We'll begin by
 looking at how it manifests itself in decimal, and then generalize.
 </p>
 
-<div class="theorem" id="orgfaeeba3">
+<div class="theorem" id="org984a48f">
 <p>
 Let \(x\) be an integer with \(N\) digits and let \(a\in\{3,9\}\). Then \(a\) divides \(x\) if
 and only if \(a\) divides the digit sum of \(x\).
@@ -415,7 +415,7 @@ and only if \(a\) divides the digit sum of \(x\).
 
 </div>
 
-<div class="proof" id="orgc447775">
+<div class="proof" id="orgbb8f4f8">
 <p>
 We will establish this identity by analyzing the difference between a
 number and its digit sum. Let \(x = (x_k)\). We have
@@ -458,7 +458,7 @@ would be satisfied for any number \(a\) such that \(b \% a = 1\), where
 dividing \(b\) by \(a\).
 </p>
 
-<div class="proposition" id="org839a6eb">
+<div class="proposition" id="orgc952b27">
 <p>
 Let \([x]_b = (x_k)\) be a given integer with \(N\) \(b\)-gits, and let \(a\in\mathbf{N}\) satisfy \(b\%a =
 1\).
@@ -467,7 +467,7 @@ Then \(a\) divides \([x]_b\) if and only if \(a\) divides \(\oplus(x_k)\).
 
 </div>
 
-<div class="proof" id="org1d523ab">
+<div class="proof" id="org9dc37cf">
 <p>
 As in the simpler case before, we look at the difference between a
 number and its digit sum:
@@ -517,9 +517,9 @@ sum of the number in its octal (radix 8) representation by 7.
 </p>
 </div>
 </div>
-<div id="outline-container-org4f7fe8a" class="outline-3">
-<h3 id="org4f7fe8a">Geometric Series</h3>
-<div class="outline-text-3" id="text-org4f7fe8a">
+<div id="outline-container-org5720274" class="outline-3">
+<h3 id="org5720274">Geometric Series</h3>
+<div class="outline-text-3" id="text-org5720274">
 <p>
 The following trick is something I came up with while daydreaming
 during my undergrad, which I was very proud of. I have since seen
@@ -545,7 +545,7 @@ trick though, it only makes sense to think of \(b\) as a natural number
 where \(b\geq 2\). The following closed form is well known.
 </p>
 
-<div class="theorem" id="org8037831">
+<div class="theorem" id="org9519c11">
 <p>
 Let \(b\in\mathbf{R}\). Then
 </p>
@@ -611,7 +611,7 @@ the geometric series.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Harley Wiltzer</p>
-<p class="date">Created: 2025-11-20 Thu 14:50</p>
+<p class="date">Created: 2025-11-20 Thu 14:55</p>
 </div>
 </body>
 </html>
